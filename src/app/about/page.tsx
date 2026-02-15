@@ -6,11 +6,9 @@ import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { RevealFx } from "@/components";
+import { RevealFx, ContactModal } from "@/components";
 import {
-  Calendar,
   Globe,
-  ChevronRight,
   Mail,
   Github,
   Linkedin,
@@ -39,6 +37,11 @@ export default function About() {
       title: about.technical.title,
       display: about.technical.display,
       items: about.technical.skills.map((skill) => skill.title),
+    },
+    {
+      title: about.lecturing.title,
+      display: about.lecturing.display,
+      items: about.lecturing.items.map((item) => item.title),
     },
   ];
 
@@ -94,16 +97,29 @@ export default function About() {
 
               {person.languages && person.languages.length > 0 && (
                 <RevealFx translateY={10} delay={0.3}>
-                  <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
-                    {person.languages.map((language, index) => (
-                      <Badge
-                        key={index}
-                        variant="secondary"
-                        className="rounded-full px-3"
-                      >
-                        {language}
-                      </Badge>
-                    ))}
+                  <div className="flex flex-col gap-3 items-center lg:items-start">
+                    <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
+                      {person.languages.map((langStr, index) => {
+                        const match = langStr.match(/(.+)\s\((.+)\)/);
+                        const name = match ? match[1] : langStr;
+
+                        return (
+                          <Badge
+                            key={index}
+                            variant="outline"
+                            className="rounded-full px-4 py-1.5 flex items-center gap-2.5 border border-primary/20 bg-primary/5 backdrop-blur-md group hover:border-primary transition-all shadow-sm"
+                          >
+                            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                            <span className="text-sm font-semibold tracking-tight">
+                              {name}
+                            </span>
+                          </Badge>
+                        );
+                      })}
+                    </div>
+                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60 ml-1">
+                      Native • Fluent Proficiency
+                    </span>
                   </div>
                 </RevealFx>
               )}
@@ -119,21 +135,9 @@ export default function About() {
           >
             <RevealFx translateY={20}>
               <div className="flex flex-col gap-2 items-center lg:items-start text-center lg:text-left">
-                {about.calendar.display && (
-                  <Button
-                    asChild
-                    variant="outline"
-                    className="rounded-full h-10 px-4 glass border-primary/20 hover:bg-primary/5 transition-all mb-4"
-                  >
-                    <a href={about.calendar.link}>
-                      <Calendar className="w-4 h-4 mr-2 text-primary" />
-                      <span className="text-sm font-medium">
-                        Schedule a call
-                      </span>
-                      <ChevronRight className="w-4 h-4 ml-2 opacity-50" />
-                    </a>
-                  </Button>
-                )}
+                <div className="flex flex-wrap gap-4 items-center justify-center lg:justify-start mb-4">
+                  <ContactModal />
+                </div>
                 <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-gradient leading-none">
                   {person.name}
                 </h1>
@@ -148,20 +152,23 @@ export default function About() {
                 <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
                   {social
                     .filter((item) => item.essential)
-                    .map((item) => (
-                      <Button
-                        key={item.name}
-                        variant="secondary"
-                        size="sm"
-                        className="rounded-full px-4 flex gap-2 h-9 border border-border/50 hover:border-primary/50 transition-all"
-                        asChild
-                      >
-                        <a href={item.link}>
-                          {getIcon(item.name)}
-                          <span>{item.name}</span>
-                        </a>
-                      </Button>
-                    ))}
+                    .map((item) => {
+                      const icon = getIcon(item.name);
+                      return (
+                        <Button
+                          key={item.name}
+                          variant="secondary"
+                          size="sm"
+                          className="rounded-full px-4 flex gap-2 h-9 border border-border/50 hover:border-primary/50 transition-all"
+                          asChild
+                        >
+                          <a href={item.link}>
+                            {icon}
+                            <span>{item.name}</span>
+                          </a>
+                        </Button>
+                      );
+                    })}
                 </div>
               </RevealFx>
             )}
@@ -255,7 +262,7 @@ export default function About() {
                   <RevealFx key={index} translateY={20} delay={index * 0.1}>
                     <div className="p-8 rounded-3xl bg-secondary/5 border border-border/40 backdrop-blur-sm flex flex-col gap-2">
                       <h3 className="text-xl font-bold">{institution.name}</h3>
-                      <p className="text-muted-foreground">
+                      <p className="text-muted-foreground whitespace-pre-wrap">
                         {institution.description}
                       </p>
                     </div>
@@ -322,6 +329,45 @@ export default function About() {
                           ))}
                         </div>
                       )}
+                    </div>
+                  </RevealFx>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Lecturing Section */}
+          {about.lecturing.display && (
+            <section
+              id={about.lecturing.title}
+              className="flex flex-col gap-12"
+            >
+              <RevealFx translateY={20}>
+                <h2 className="text-3xl md:text-5xl font-black tracking-tighter text-gradient">
+                  {about.lecturing.title}
+                </h2>
+              </RevealFx>
+
+              <div className="flex flex-col gap-16">
+                {about.lecturing.items.map((item, index) => (
+                  <RevealFx key={index} translateY={20} delay={index * 0.1}>
+                    <div className="group relative flex flex-col gap-6">
+                      <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-2">
+                        <div className="flex flex-col">
+                          <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">
+                            {item.title}
+                          </h3>
+                          <span className="text-lg font-medium text-primary italic">
+                            {item.role}
+                          </span>
+                        </div>
+                        <span className="text-sm md:text-base font-medium text-muted-foreground tabular-nums">
+                          {item.timeframe}
+                        </span>
+                      </div>
+                      <div className="text-lg text-muted-foreground leading-relaxed">
+                        {item.description}
+                      </div>
                     </div>
                   </RevealFx>
                 ))}

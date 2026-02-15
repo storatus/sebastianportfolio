@@ -1,49 +1,43 @@
-import { About, Blog, Gallery, Home, Newsletter, Person, Social, Work } from "@/types";
+import {
+  About,
+  Blog,
+  Gallery,
+  Home,
+  Newsletter,
+  Person,
+  Social,
+  Work,
+} from "@/types";
 import { Line, Row, Text } from "@once-ui-system/core";
 
 const person: Person = {
-  firstName: "Selene",
-  lastName: "Yu",
-  name: `Selene Yu`,
-  role: "Design Engineer",
-  avatar: "/images/avatar.jpg",
-  email: "example@gmail.com",
-  location: "Asia/Jakarta", // Expecting the IANA time zone identifier, e.g., 'Europe/Vienna'
-  languages: ["English", "Bahasa"], // optional: Leave the array empty if you don't want to display languages
+  firstName: "Sebastian",
+  lastName: "Glahn",
+  name: `Sebastian Glahn`,
+  role: "Senior Full-Stack Engineer",
+  avatar: "/images/avatarSebastian.jpg",
+  email: "sebastian.glahn89@web.de",
+  location: "America/La_Paz", // Santa Cruz, Bolivia
+  languages: ["English (Fluent)", "Spanish (Fluent)", "German (Fluent)"],
 };
 
 const newsletter: Newsletter = {
-  display: true,
+  display: false,
   title: <>Subscribe to {person.firstName}'s Newsletter</>,
-  description: <>My weekly newsletter about creativity and engineering</>,
+  description: <>My thoughts on AI, software engineering, and business</>,
 };
 
 const social: Social = [
-  // Links are automatically displayed.
-  // Import new icons in /once-ui/icons.ts
-  // Set essentials: true for links you want to show on the about page
   {
     name: "GitHub",
     icon: "github",
-    link: "https://github.com/once-ui-system",
+    link: "https://github.com/storatus",
     essential: true,
   },
   {
     name: "LinkedIn",
     icon: "linkedin",
-    link: "https://www.linkedin.com/company/once-ui/",
-    essential: true,
-  },
-  {
-    name: "Instagram",
-    icon: "instagram",
-    link: "https://www.instagram.com/once_ui/",
-    essential: false,
-  },
-  {
-    name: "Threads",
-    icon: "threads",
-    link: "https://www.threads.com/@once_ui",
+    link: "https://www.linkedin.com/in/sebastian-glahn/",
     essential: true,
   },
   {
@@ -60,24 +54,29 @@ const home: Home = {
   label: "Home",
   title: `${person.name}'s Portfolio`,
   description: `Portfolio website showcasing my work as a ${person.role}`,
-  headline: <>Building bridges between design and code</>,
+  headline: <>Senior Full-Stack Engineer specializing in AI Applications</>,
   featured: {
-    display: true,
+    display: false,
     title: (
       <Row gap="12" vertical="center">
-        <strong className="ml-4">Once UI</strong>{" "}
+        <strong className="ml-4">Featured Work</strong>{" "}
         <Line background="brand-alpha-strong" vert height="20" />
-        <Text marginRight="4" onBackground="brand-medium">
-          Featured work
-        </Text>
       </Row>
     ),
-    href: "/work/building-once-ui-a-customizable-design-system",
+    href: "/work/aihoo",
   },
   subline: (
     <>
-    I'm Selene, a design engineer at <Text as="span" size="xl" weight="strong">ONCE UI</Text>, where I craft intuitive <br /> user experiences. After hours, I build my own projects.
-</>
+      I have been developing for 14 years and currently specialize in{" "}
+      <Text as="span" size="xl" weight="strong">
+        AI applications
+      </Text>{" "}
+      and the{" "}
+      <Text as="span" size="xl" weight="strong">
+        Vercel AI SDK
+      </Text>
+      .
+    </>
   ),
 };
 
@@ -95,59 +94,118 @@ const about: About = {
   },
   calendar: {
     display: true,
-    link: "https://cal.com",
+    link: "https://cal.com/sebastian-glahn",
   },
   intro: {
     display: true,
     title: "Introduction",
     description: (
       <>
-        Selene is a Jakarta-based design engineer with a passion for transforming complex challenges
-        into simple, elegant design solutions. Her work spans digital interfaces, interactive
-        experiences, and the convergence of design and technology.
+        I have been developing for 14 years, and I love my craft. During my
+        career, I have worked in different international settings and on diverse
+        projects. My business background enables me to have a unique perspective
+        on programming, tackling problems in a creative and structured way,
+        always keeping added value in mind. I adhere to proven coding standards,
+        and I currently specialize in AI applications and the Vercel AI SDK.
       </>
     ),
   },
   work: {
-    display: true, // set to false to hide this section
+    display: true,
     title: "Work Experience",
     experiences: [
       {
-        company: "FLY",
-        timeframe: "2022 - Present",
-        role: "Senior Design Engineer",
+        company: "Aihoo",
+        timeframe: "2023 - Present",
+        role: "Development Lead",
         achievements: [
           <>
-            Redesigned the UI/UX for the FLY platform, resulting in a 20% increase in user
-            engagement and 30% faster load times.
+            Developed an innovative AI web platform for simultaneous interaction
+            with multiple AI chatbots, enhancing comparative analysis and
+            response optimization.
           </>,
           <>
-            Spearheaded the integration of AI tools into design workflows, enabling designers to
-            iterate 50% faster.
+            Implemented a Meta Chat AI feature to refine chatbot outputs and
+            identify top-performing models, improving overall user experience.
+          </>,
+          <>
+            Aihoo is currently part of Acceleratec, a leading start-up
+            accelerator program in Bolivia.
+          </>,
+          <>
+            Tech stack: Next.js, Vercel AI SDK, Tailwind CSS, and PostgreSQL.
           </>,
         ],
-        images: [
-          // optional: leave the array empty if you don't want to display images
-          {
-            src: "/images/projects/project-01/cover-01.jpg",
-            alt: "Once UI Project",
-            width: 16,
-            height: 9,
-          },
-        ],
+        images: [],
       },
       {
-        company: "Creativ3",
-        timeframe: "2018 - 2022",
-        role: "Lead Designer",
+        company: "Freelance",
+        timeframe: "2015 - Present",
+        role: "Full-Stack Developer",
         achievements: [
           <>
-            Developed a design system that unified the brand across multiple platforms, improving
-            design consistency by 40%.
+            Worked on various projects as a front-end and full-stack developer.
           </>,
           <>
-            Led a cross-functional team to launch a new product line, contributing to a 15% increase
-            in overall company revenue.
+            Favorite tech stack: Next.js, Vercel AI SDK, Node.js, and React
+            Native.
+          </>,
+        ],
+        images: [],
+      },
+      {
+        company: "LevelApp",
+        timeframe: "2019 - 2022",
+        role: "Mobile Development Lead",
+        achievements: [
+          <>
+            Developed and published a complete video game marketplace for the
+            German market (iOS/Android).
+          </>,
+          <>
+            Included marketplace features and API connections from IGDB to
+            enhance user experience and structure the selling process.
+          </>,
+        ],
+        images: [],
+      },
+      {
+        company: "OSB AG",
+        timeframe: "2019 - 2020",
+        role: "Frontend Developer",
+        achievements: [
+          <>
+            Developed React Native Apps for the German public broadcasting
+            company "WDR" in Cologne, Germany.
+          </>,
+          <>
+            Developed a white-label iOS/Android App for different local
+            broadcasters and radio stations.
+          </>,
+        ],
+        images: [],
+      },
+      {
+        company: "Zupa S.R.L",
+        timeframe: "2017 - 2018",
+        role: "Development Lead and Co-founder",
+        achievements: [
+          <>Developed a delivery App for the Bolivian market.</>,
+          <>
+            Responsibilities included product development, development of the
+            hybrid mobile app, and an administration system.
+          </>,
+        ],
+        images: [],
+      },
+      {
+        company: "Prometheus Technology S.R.L",
+        timeframe: "2015 - 2018",
+        role: "COO and Co-Founder",
+        achievements: [
+          <>
+            Led an outsourcing company that offered high-quality web programming
+            for clients worldwide, with a focus on Germany and Spain.
           </>,
         ],
         images: [],
@@ -155,78 +213,86 @@ const about: About = {
     ],
   },
   studies: {
-    display: true, // set to false to hide this section
-    title: "Studies",
+    display: true,
+    title: "Education",
     institutions: [
       {
-        name: "University of Jakarta",
-        description: <>Studied software engineering.</>,
+        name: "University of Bath, UK",
+        description: <>M.Sc. Computer Science (2017 - 2018)</>,
       },
       {
-        name: "Build the Future",
-        description: <>Studied online marketing and personal branding.</>,
+        name: "Munich Business School",
+        description: <>B.A. International Business (2009 - 2013)</>,
       },
     ],
   },
   technical: {
-    display: true, // set to false to hide this section
-    title: "Technical skills",
+    display: true,
+    title: "Skills",
     skills: [
       {
-        title: "Figma",
+        title: "Project Management",
         description: (
-          <>Able to prototype in Figma with Once UI with unnatural speed.</>
+          <>
+            Experienced in leading teams and managing complex software projects
+            from conception to delivery.
+          </>
         ),
-        tags: [
-          {
-            name: "Figma",
-            icon: "figma",
-          },
-        ],
-        // optional: leave the array empty if you don't want to display images
-        images: [
-          {
-            src: "/images/projects/project-01/cover-02.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-          {
-            src: "/images/projects/project-01/cover-03.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-        ],
       },
       {
-        title: "Next.js",
+        title: "AI Tools & SDKs",
         description: (
-          <>Building next gen apps with Next.js + Once UI + Supabase.</>
+          <>
+            Specialized in Vercel AI SDK, OpenAI, and integrating various LLMs
+            into production applications.
+          </>
         ),
-        tags: [
-          {
-            name: "JavaScript",
-            icon: "javascript",
-          },
-          {
-            name: "Next.js",
-            icon: "nextjs",
-          },
-          {
-            name: "Supabase",
-            icon: "supabase",
-          },
-        ],
-        // optional: leave the array empty if you don't want to display images
-        images: [
-          {
-            src: "/images/projects/project-01/cover-04.jpg",
-            alt: "Project image",
-            width: 16,
-            height: 9,
-          },
-        ],
+      },
+      {
+        title: "Agile Development",
+        description: (
+          <>
+            Strong proponent of Agile methodologies, ensuring iterative delivery
+            and high-quality code.
+          </>
+        ),
+      },
+      {
+        title: "SEO",
+        description: (
+          <>
+            Implementing best practices for search engine optimization in modern
+            web applications.
+          </>
+        ),
+      },
+    ],
+  },
+  lecturing: {
+    display: true,
+    title: "Lecturing",
+    items: [
+      {
+        title: "Google Dev Speaker",
+        timeframe: "2024",
+        role: "Google Dev Event",
+        description: (
+          <>
+            Presented Aihoo at the Google Dev event in Santa Cruz de la Sierra.
+          </>
+        ),
+      },
+      {
+        title: "Mobile App Development Lecturer",
+        timeframe: "2023",
+        role: "Chicas Programadoras",
+        description: (
+          <>
+            Participated as a Mobile App lecturer in the “Chicas Programadoras”
+            program, an NGO that teaches talented young girls programming and
+            tech skills in Bolivia.
+          </>
+        ),
       },
     ],
   },

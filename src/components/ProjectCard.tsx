@@ -42,7 +42,15 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   link,
 }) => {
   return (
-    <Card className="group overflow-hidden border-border/50 bg-secondary/5 backdrop-blur-sm transition-all duration-500 hover:border-border hover:shadow-2xl flex flex-col h-full rounded-[2rem]">
+    <Card className="group overflow-hidden border-border/50 bg-secondary/5 backdrop-blur-sm transition-all duration-500 hover:border-border hover:shadow-2xl flex flex-col h-full rounded-[2rem] relative">
+      <Link
+        href={href}
+        className="absolute inset-0 z-10"
+        aria-label={`View ${title}`}
+      >
+        <span className="sr-only">View {title}</span>
+      </Link>
+
       {/* Image Carousel */}
       <div className="relative aspect-video overflow-hidden">
         <Carousel className="w-full h-full">
@@ -61,8 +69,8 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           </CarouselContent>
           {images.length > 1 && (
             <>
-              <CarouselPrevious className="left-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-              <CarouselNext className="right-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <CarouselPrevious className="left-4 opacity-0 group-hover:opacity-100 transition-opacity z-20" />
+              <CarouselNext className="right-4 opacity-0 group-hover:opacity-100 transition-opacity z-20" />
             </>
           )}
         </Carousel>
@@ -103,13 +111,13 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           )}
 
           {/* Links */}
-          <div className="flex flex-wrap gap-4">
-            {content?.trim() && (
+          <div className="flex flex-wrap gap-4 relative z-20">
+            {href && (
               <Button
                 asChild
-                variant="default"
+                variant="secondary"
                 size="sm"
-                className="rounded-full px-6 gap-2 glass border-none hover:bg-primary transition-all shadow-md group/btn"
+                className="rounded-full px-6 gap-2 glass border-none hover:bg-primary hover:text-primary-foreground transition-all shadow-md group/btn"
               >
                 <Link href={href}>
                   <span>Read case study</span>

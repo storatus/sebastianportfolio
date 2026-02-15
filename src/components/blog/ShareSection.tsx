@@ -1,7 +1,19 @@
 "use client";
 
-import { Row, Text, Button, useToast } from "@once-ui-system/core";
+import { useState } from "react";
 import { socialSharing } from "@/resources";
+import { Button } from "@/components/ui/button";
+import {
+  Twitter,
+  Linkedin,
+  Facebook,
+  Share2,
+  MessageCircle,
+  Mail,
+  Link as LinkIcon,
+  Check,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface ShareSectionProps {
   title: string;
@@ -10,7 +22,7 @@ interface ShareSectionProps {
 
 interface SocialPlatform {
   name: string;
-  icon: string;
+  icon: React.ReactNode;
   label: string;
   generateUrl: (title: string, url: string) => string;
 }
@@ -18,65 +30,44 @@ interface SocialPlatform {
 const socialPlatforms: Record<string, SocialPlatform> = {
   x: {
     name: "x",
-    icon: "twitter",
+    icon: <Twitter size={16} />,
     label: "X",
-    generateUrl: (title, url) => 
+    generateUrl: (title, url) =>
       `https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`,
   },
   linkedin: {
     name: "linkedin",
-    icon: "linkedin",
+    icon: <Linkedin size={16} />,
     label: "LinkedIn",
-    generateUrl: (title, url) => 
+    generateUrl: (title, url) =>
       `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`,
   },
   facebook: {
     name: "facebook",
-    icon: "facebook",
+    icon: <Facebook size={16} />,
     label: "Facebook",
-    generateUrl: (title, url) => 
+    generateUrl: (title, url) =>
       `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
-  },
-  pinterest: {
-    name: "pinterest",
-    icon: "pinterest",
-    label: "Pinterest",
-    generateUrl: (title, url) => 
-      `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(url)}&description=${encodeURIComponent(title)}`,
   },
   whatsapp: {
     name: "whatsapp",
-    icon: "whatsapp",
+    icon: <MessageCircle size={16} />,
     label: "WhatsApp",
-    generateUrl: (title, url) => 
+    generateUrl: (title, url) =>
       `https://wa.me/?text=${encodeURIComponent(`${title} ${url}`)}`,
-  },
-  reddit: {
-    name: "reddit",
-    icon: "reddit",
-    label: "Reddit",
-    generateUrl: (title, url) => 
-      `https://reddit.com/submit?url=${encodeURIComponent(url)}&title=${encodeURIComponent(title)}`,
-  },
-  telegram: {
-    name: "telegram",
-    icon: "telegram",
-    label: "Telegram",
-    generateUrl: (title, url) => 
-      `https://t.me/share/url?url=${encodeURIComponent(url)}&text=${encodeURIComponent(title)}`,
   },
   email: {
     name: "email",
-    icon: "email",
+    icon: <Mail size={16} />,
     label: "Email",
-    generateUrl: (title, url) => 
+    generateUrl: (title, url) =>
       `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent(`Check out this post: ${url}`)}`,
   },
 };
 
 export function ShareSection({ title, url }: ShareSectionProps) {
-  const { addToast } = useToast();
-  // Don't render if sharing is disabled
+  const [copied, setCopied] = useState(false);
+
   if (!socialSharing.display) {
     return null;
   }
@@ -84,44 +75,59 @@ export function ShareSection({ title, url }: ShareSectionProps) {
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(url);
-      addToast({
-        variant: "success",
-        message: "Link copied to clipboard",
-      });
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      console.error('Failed to copy: ', err);
-      addToast({
-        variant: "danger",
-        message: "Failed to copy link",
-      });
+      console.error("Failed to copy: ", err);
     }
   };
 
-  // Get enabled platforms
   const enabledPlatforms = Object.entries(socialSharing.platforms)
-    .filter(([_, enabled]) => enabled && _ !== 'copyLink')
-    .map(([platformKey]) => ({ key: platformKey, ...socialPlatforms[platformKey] }))
-    .filter(platform => platform.name); // Filter out platforms that don't exist in our definitions
+    .filter(([key, enabled]) => enabled && socialPlatforms[key])
+    .map(([key]) => socialPlatforms[key]);
 
   return (
-    <Row fillWidth center gap="16" marginTop="32" marginBottom="16">
-      <Text variant="label-default-m" onBackground="neutral-weak">
-        Share this post:
-      </Text>
-      <Row data-border="rounded" gap="16" horizontal="center" wrap>
-        {enabledPlatforms.map((platform, index) => (
-          <Button key={index} variant="secondary" size="s" href={platform.generateUrl(title, url)} prefixIcon={platform.icon} />
+    <div className="flex flex-col items-center gap-6 py-12 border-y border-border/40 my-12">
+      <h3 className="text-sm font-bold uppercase tracking-[0.2em] text-muted-foreground">
+        Share this post
+      </h3>
+      <div className="flex flex-wrap justify-center gap-3">
+        {enabledPlatforms.map((platform) => (
+          <Button
+            key={platform.name}
+            variant="outline"
+            size="icon"
+            asChild
+            className="rounded-full w-12 h-12 bg-secondary/5 border-border/40 hover:bg-secondary/10 hover:border-primary/50 transition-all hover:scale-105 active:scale-95"
+            title={`Share on ${platform.label}`}
+          >
+            <a
+              href={platform.generateUrl(title, url)}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {platform.icon}
+            </a>
+          </Button>
         ))}
-        
+
         {socialSharing.platforms.copyLink && (
           <Button
-            variant="secondary"
-            size="s"
+            variant="outline"
+            size="icon"
             onClick={handleCopy}
-            prefixIcon="openLink"
-          />
+            className={cn(
+              "rounded-full w-12 h-12 bg-secondary/5 border-border/40 hover:border-primary/50 transition-all hover:scale-105 active:scale-95",
+              copied
+                ? "border-green-500/50 text-green-500 bg-green-500/5 italic"
+                : "hover:bg-secondary/10",
+            )}
+            title="Copy link"
+          >
+            {copied ? <Check size={16} /> : <LinkIcon size={16} />}
+          </Button>
         )}
-      </Row>
-    </Row>
+      </div>
+    </div>
   );
 }
