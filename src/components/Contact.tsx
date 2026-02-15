@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { RevealFx } from "@once-ui-system/core";
+import { RevealFx } from "@/components/RevealFx";
 import {
   Form,
   FormControl,
@@ -91,7 +91,7 @@ export const Contact = () => {
 
       <RevealFx translateY="12" delay={0.2}>
         <div className="p-8 md:p-12 rounded-[2.5rem] bg-secondary/5 border border-border/40 backdrop-blur-md shadow-xl relative overflow-hidden group">
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+          <div className="absolute top-0 left-0 w-full h-1 bg-linear-to-r from-transparent via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
           <Form {...form}>
             <form

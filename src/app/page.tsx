@@ -1,5 +1,5 @@
 import { home } from "@/resources";
-import { Mailchimp, Hero, RevealFx } from "@/components";
+import { Contact, Hero, RevealFx } from "@/components";
 import { Projects } from "@/components/work/Projects";
 
 export default function Home() {
@@ -23,15 +23,8 @@ export default function Home() {
         <Projects range={[2]} />
       </section>
 
-      {/* Newsletter / CTA */}
-      <section className="w-full max-w-5xl px-4">
-        <div className="relative p-10 md:p-20 rounded-[2.5rem] bg-gradient-to-br from-secondary/20 to-secondary/5 backdrop-blur-3xl border border-white/5 shadow-2xl overflow-hidden group">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 blur-[100px] rounded-full -mr-20 -mt-20 transition-all group-hover:bg-primary/20" />
-          <div className="relative z-10">
-            <Mailchimp />
-          </div>
-        </div>
-      </section>
+      {/* Contact Section */}
+      <Contact />
     </div>
   );
 }
