@@ -5,6 +5,7 @@ export { Hero } from "./Hero";
 export { About } from "./About";
 export { Skills } from "./Skills";
 export { ProjectGrid } from "./work/ProjectGrid";
+export { RecentProjectsCarousel } from "./work/RecentProjectsCarousel";
 export { Contact } from "./Contact";
 export { ContactForm } from "./ContactForm";
 export { ContactModal } from "./ContactModal";
