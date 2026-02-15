@@ -39,7 +39,7 @@ export const Hero = ({ headline, subline }: HeroProps) => {
   return (
     <div
       ref={ref}
-      className="w-full flex flex-col items-center gap-8 py-32 relative"
+      className="w-full flex flex-col items-center gap-8 pt-20 pb-32 relative"
     >
       <motion.div
         style={{

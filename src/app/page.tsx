@@ -4,7 +4,7 @@ import { Projects } from "@/components/work/Projects";
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center gap-24 py-12 md:py-20 w-full">
+    <div className="flex flex-col items-center gap-24 pb-12 md:pb-20 w-full">
       <section className="w-full flex flex-col items-center gap-8">
         <div className="w-full">
           <Hero headline={home.headline} subline={home.subline} />
