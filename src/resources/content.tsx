@@ -273,6 +273,16 @@ const about: About = {
     title: "Lecturing",
     items: [
       {
+        title: "Google Dev Speaker",
+        timeframe: "2024",
+        role: "Google Dev Event",
+        description: (
+          <>
+            Presented Aihoo at the Google Dev event in Santa Cruz de la Sierra.
+          </>
+        ),
+      },
+      {
         title: "Mobile App Development Lecturer",
         timeframe: "2023",
         role: "Chicas Programadoras",
