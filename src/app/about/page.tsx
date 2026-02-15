@@ -99,16 +99,29 @@ export default function About() {
 
               {person.languages && person.languages.length > 0 && (
                 <RevealFx translateY={10} delay={0.3}>
-                  <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
-                    {person.languages.map((language, index) => (
-                      <Badge
-                        key={index}
-                        variant="secondary"
-                        className="rounded-full px-3"
-                      >
-                        {language}
-                      </Badge>
-                    ))}
+                  <div className="flex flex-col gap-3 items-center lg:items-start">
+                    <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
+                      {person.languages.map((langStr, index) => {
+                        const match = langStr.match(/(.+)\s\((.+)\)/);
+                        const name = match ? match[1] : langStr;
+
+                        return (
+                          <Badge
+                            key={index}
+                            variant="outline"
+                            className="rounded-full px-4 py-1.5 flex items-center gap-2.5 border border-primary/20 bg-primary/5 backdrop-blur-md group hover:border-primary transition-all shadow-sm"
+                          >
+                            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                            <span className="text-sm font-semibold tracking-tight">
+                              {name}
+                            </span>
+                          </Badge>
+                        );
+                      })}
+                    </div>
+                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60 ml-1">
+                      Native • Fluent Proficiency
+                    </span>
                   </div>
                 </RevealFx>
               )}

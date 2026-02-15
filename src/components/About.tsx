@@ -1,7 +1,8 @@
 "use client";
 
-import { RevealFx } from "@once-ui-system/core";
+import { RevealFx } from "@/components/RevealFx";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
 import { person } from "@/resources";
 
 export const About = () => {
@@ -43,6 +44,35 @@ export const About = () => {
               </div>
             </div>
           </RevealFx>
+
+          {person.languages && person.languages.length > 0 && (
+            <RevealFx translateX={-20} delay={0.4}>
+              <div className="mt-12 flex flex-col gap-4">
+                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60 ml-1">
+                  Languages
+                </span>
+                <div className="flex flex-wrap gap-3">
+                  {person.languages.map((langStr, index) => {
+                    const match = langStr.match(/(.+)\s\((.+)\)/);
+                    const name = match ? match[1] : langStr;
+
+                    return (
+                      <Badge
+                        key={index}
+                        variant="outline"
+                        className="rounded-full px-4 py-1.5 flex items-center gap-2.5 border border-primary/20 bg-primary/5 backdrop-blur-md group hover:border-primary transition-all shadow-sm"
+                      >
+                        <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                        <span className="text-sm font-semibold tracking-tight">
+                          {name}
+                        </span>
+                      </Badge>
+                    );
+                  })}
+                </div>
+              </div>
+            </RevealFx>
+          )}
         </div>
 
         <div className="lg:col-span-7 flex flex-col gap-8">
