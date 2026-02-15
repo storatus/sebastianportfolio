@@ -14,7 +14,17 @@ import {
   Linkedin,
   Twitter,
   Instagram,
+  Sparkles,
 } from "lucide-react";
+import {
+  SiNextdotjs,
+  SiReact,
+  SiTypescript,
+  SiVercel,
+  SiTailwindcss,
+  SiNodedotjs,
+  SiFigma,
+} from "react-icons/si";
 
 export default function About() {
   const structure = [
@@ -172,6 +182,34 @@ export default function About() {
                 </div>
               </RevealFx>
             )}
+
+            <RevealFx translateY={10} delay={0.45}>
+              <div className="flex flex-col gap-3 items-center lg:items-start opacity-90 mt-2">
+                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">
+                  Core Stack
+                </span>
+                <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
+                  {[
+                    { icon: SiVercel, name: "Vercel" },
+                    { icon: SiNextdotjs, name: "Next.js" },
+                    { icon: SiReact, name: "React" },
+                    { icon: SiTypescript, name: "TypeScript" },
+                    { icon: Sparkles, name: "AI SDK" },
+                    { icon: SiNodedotjs, name: "Node.js" },
+                    { icon: SiTailwindcss, name: "Tailwind" },
+                    { icon: SiFigma, name: "Figma" },
+                  ].map((tech) => (
+                    <div
+                      key={tech.name}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-border/30 bg-secondary/10 hover:bg-secondary/20 text-xs md:text-sm font-medium text-muted-foreground transition-all cursor-default"
+                    >
+                      <tech.icon className="w-3.5 h-3.5" />
+                      <span>{tech.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </RevealFx>
 
             {about.intro.display && (
               <RevealFx translateY={20} delay={0.5}>
