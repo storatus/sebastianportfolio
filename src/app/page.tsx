@@ -1,32 +1,11 @@
-import { home, about, person, baseURL, routes } from "@/resources";
+import { home } from "@/resources";
 import { Mailchimp, Hero, RevealFx } from "@/components";
 import { Projects } from "@/components/work/Projects";
-
-import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 
 export default function Home() {
   return (
     <div className="flex flex-col items-center gap-24 py-12 md:py-20 w-full">
       <section className="w-full flex flex-col items-center gap-8">
-        {home.featured.display && (
-          <RevealFx translateY="4">
-            <Link href={home.featured.href || "#"}>
-              <Badge
-                variant="secondary"
-                className="px-4 py-1.5 flex items-center gap-2 rounded-full glass hover:bg-secondary/40 transition-all cursor-pointer group"
-              >
-                <span className="text-sm font-medium">
-                  {home.featured.title}
-                </span>
-                <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
-              </Badge>
-            </Link>
-          </RevealFx>
-        )}
-
         <div className="w-full">
           <Hero headline={home.headline} subline={home.subline} />
         </div>
