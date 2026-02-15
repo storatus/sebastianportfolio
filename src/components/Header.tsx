@@ -18,46 +18,6 @@ import {
 import { ThemeToggle } from "./ThemeToggle";
 import { Home, User, Grid, Book, Image as ImageIcon } from "lucide-react";
 
-type TimeDisplayProps = {
-  timeZone: string;
-  locale?: string;
-};
-
-const TimeDisplay: React.FC<TimeDisplayProps> = ({
-  timeZone,
-  locale = "en-GB",
-}) => {
-  const [currentTime, setCurrentTime] = useState("");
-
-  useEffect(() => {
-    const updateTime = () => {
-      const now = new Date();
-      const options: Intl.DateTimeFormatOptions = {
-        timeZone,
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: false,
-      };
-      try {
-        const timeString = new Intl.DateTimeFormat(locale, options).format(now);
-        setCurrentTime(timeString);
-      } catch (e) {
-        console.error("Invalid timezone or locale:", e);
-      }
-    };
-
-    updateTime();
-    const intervalId = setInterval(updateTime, 1000);
-
-    return () => clearInterval(intervalId);
-  }, [timeZone, locale]);
-
-  return <span className="tabular-nums">{currentTime}</span>;
-};
-
-export { TimeDisplay };
-
 export const Header = () => {
   const pathname = usePathname() ?? "";
 
@@ -105,9 +65,7 @@ export const Header = () => {
 
       <nav className="mt-4 px-4 py-2 flex items-center justify-between w-full max-w-7xl mx-auto">
         {/* Left side: Location */}
-        <div className="hidden md:flex flex-1 items-center text-sm text-muted-foreground">
-          {display.location && <span>{person.location}</span>}
-        </div>
+        <div className="hidden md:flex flex-1 items-center text-sm text-muted-foreground"></div>
 
         {/* Center: Navigation Bar */}
         <div className="flex items-center gap-1 p-1 bg-background/20 backdrop-blur-xl border border-foreground/5 rounded-full shadow-2xl transition-all duration-300 hover:border-foreground/10 group">
@@ -166,9 +124,7 @@ export const Header = () => {
         </div>
 
         {/* Right side: Time */}
-        <div className="hidden md:flex flex-1 justify-end items-center text-sm text-muted-foreground gap-5">
-          {display.time && <TimeDisplay timeZone={person.location} />}
-        </div>
+        <div className="hidden md:flex flex-1 justify-end items-center text-sm text-muted-foreground gap-5"></div>
       </nav>
 
       {/* Mobile bottom navigation fallback if needed - but user asked for modern/dev portfolio, sticky/top nav is usually preferred. 
