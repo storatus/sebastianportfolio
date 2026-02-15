@@ -40,6 +40,11 @@ export default function About() {
       display: about.technical.display,
       items: about.technical.skills.map((skill) => skill.title),
     },
+    {
+      title: about.lecturing.title,
+      display: about.lecturing.display,
+      items: about.lecturing.items.map((item) => item.title),
+    },
   ];
 
   const getIcon = (name: string) => {
@@ -148,20 +153,23 @@ export default function About() {
                 <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
                   {social
                     .filter((item) => item.essential)
-                    .map((item) => (
-                      <Button
-                        key={item.name}
-                        variant="secondary"
-                        size="sm"
-                        className="rounded-full px-4 flex gap-2 h-9 border border-border/50 hover:border-primary/50 transition-all"
-                        asChild
-                      >
-                        <a href={item.link}>
-                          {getIcon(item.name)}
-                          <span>{item.name}</span>
-                        </a>
-                      </Button>
-                    ))}
+                    .map((item) => {
+                      const icon = getIcon(item.name);
+                      return (
+                        <Button
+                          key={item.name}
+                          variant="secondary"
+                          size="sm"
+                          className="rounded-full px-4 flex gap-2 h-9 border border-border/50 hover:border-primary/50 transition-all"
+                          asChild
+                        >
+                          <a href={item.link}>
+                            {icon}
+                            <span>{item.name}</span>
+                          </a>
+                        </Button>
+                      );
+                    })}
                 </div>
               </RevealFx>
             )}
@@ -255,7 +263,7 @@ export default function About() {
                   <RevealFx key={index} translateY={20} delay={index * 0.1}>
                     <div className="p-8 rounded-3xl bg-secondary/5 border border-border/40 backdrop-blur-sm flex flex-col gap-2">
                       <h3 className="text-xl font-bold">{institution.name}</h3>
-                      <p className="text-muted-foreground">
+                      <p className="text-muted-foreground whitespace-pre-wrap">
                         {institution.description}
                       </p>
                     </div>
@@ -322,6 +330,45 @@ export default function About() {
                           ))}
                         </div>
                       )}
+                    </div>
+                  </RevealFx>
+                ))}
+              </div>
+            </section>
+          )}
+
+          {/* Lecturing Section */}
+          {about.lecturing.display && (
+            <section
+              id={about.lecturing.title}
+              className="flex flex-col gap-12"
+            >
+              <RevealFx translateY={20}>
+                <h2 className="text-3xl md:text-5xl font-black tracking-tighter text-gradient">
+                  {about.lecturing.title}
+                </h2>
+              </RevealFx>
+
+              <div className="flex flex-col gap-16">
+                {about.lecturing.items.map((item, index) => (
+                  <RevealFx key={index} translateY={20} delay={index * 0.1}>
+                    <div className="group relative flex flex-col gap-6">
+                      <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-2">
+                        <div className="flex flex-col">
+                          <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">
+                            {item.title}
+                          </h3>
+                          <span className="text-lg font-medium text-primary italic">
+                            {item.role}
+                          </span>
+                        </div>
+                        <span className="text-sm md:text-base font-medium text-muted-foreground tabular-nums">
+                          {item.timeframe}
+                        </span>
+                      </div>
+                      <div className="text-lg text-muted-foreground leading-relaxed">
+                        {item.description}
+                      </div>
                     </div>
                   </RevealFx>
                 ))}

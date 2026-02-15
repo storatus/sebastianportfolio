@@ -209,6 +209,24 @@ export interface About extends BasePageConfig {
       }>;
     }>;
   };
+  /** Lecturing section */
+  lecturing: {
+    /** Whether to display lecturing section */
+    display: boolean;
+    /** Title for the lecturing section */
+    title: string;
+    /** List of lecturing experiences */
+    items: Array<{
+      /** Title of the lecture/program */
+      title: string;
+      /** Institution or program name */
+      timeframe: string;
+      /** Role or job title */
+      role: string;
+      /** Description or achievements */
+      description: React.ReactNode;
+    }>;
+  };
 }
 
 /**
