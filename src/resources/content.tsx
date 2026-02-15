@@ -15,7 +15,7 @@ const person: Person = {
   lastName: "Glahn",
   name: `Sebastian Glahn`,
   role: "Senior Software Engineer",
-  avatar: "/images/avatar.jpg",
+  avatar: "/images/avatarSebastian.jpg",
   email: "sebastian.glahn89@web.de",
   location: "America/La_Paz", // Santa Cruz, Bolivia
   languages: ["English (Fluent)", "Spanish (Fluent)", "German (Fluent)"],
