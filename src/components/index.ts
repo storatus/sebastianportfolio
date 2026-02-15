@@ -6,6 +6,8 @@ export { About } from "./About";
 export { Skills } from "./Skills";
 export { ProjectGrid } from "./work/ProjectGrid";
 export { Contact } from "./Contact";
+export { ContactForm } from "./ContactForm";
+export { ContactModal } from "./ContactModal";
 export { Typewriter } from "./Typewriter";
 export { ProjectCard } from "./ProjectCard";
 export { HeadingLink } from "./HeadingLink";

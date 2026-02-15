@@ -6,11 +6,9 @@ import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { RevealFx } from "@/components";
+import { RevealFx, ContactModal } from "@/components";
 import {
-  Calendar,
   Globe,
-  ChevronRight,
   Mail,
   Github,
   Linkedin,
@@ -137,21 +135,9 @@ export default function About() {
           >
             <RevealFx translateY={20}>
               <div className="flex flex-col gap-2 items-center lg:items-start text-center lg:text-left">
-                {about.calendar.display && (
-                  <Button
-                    asChild
-                    variant="outline"
-                    className="rounded-full h-10 px-4 glass border-primary/20 hover:bg-primary/5 transition-all mb-4"
-                  >
-                    <a href={about.calendar.link}>
-                      <Calendar className="w-4 h-4 mr-2 text-primary" />
-                      <span className="text-sm font-medium">
-                        Schedule a call
-                      </span>
-                      <ChevronRight className="w-4 h-4 ml-2 opacity-50" />
-                    </a>
-                  </Button>
-                )}
+                <div className="flex flex-wrap gap-4 items-center justify-center lg:justify-start mb-4">
+                  <ContactModal />
+                </div>
                 <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-gradient leading-none">
                   {person.name}
                 </h1>
