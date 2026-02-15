@@ -3,7 +3,9 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { routes, protectedRoutes } from "@/resources";
-import { Flex, Spinner, Button, Heading, Column, PasswordInput } from "@once-ui-system/core";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Loader2, Lock } from "lucide-react";
 import NotFound from "@/app/not-found";
 
 interface RouteGuardProps {
@@ -46,7 +48,10 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
       const routeEnabled = checkRouteEnabled();
       setIsRouteEnabled(routeEnabled);
 
-      if (protectedRoutes[pathname as keyof typeof protectedRoutes]) {
+      if (
+        pathname &&
+        protectedRoutes[pathname as keyof typeof protectedRoutes]
+      ) {
         setIsPasswordRequired(true);
 
         const response = await fetch("/api/check-auth");
@@ -78,9 +83,9 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
 
   if (loading) {
     return (
-      <Flex fillWidth paddingY="128" horizontal="center">
-        <Spinner />
-      </Flex>
+      <div className="flex w-full min-h-[50vh] items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+      </div>
     );
   }
 
@@ -90,21 +95,42 @@ const RouteGuard: React.FC<RouteGuardProps> = ({ children }) => {
 
   if (isPasswordRequired && !isAuthenticated) {
     return (
-      <Column paddingY="128" maxWidth={24} gap="24" center>
-        <Heading align="center" wrap="balance">
-          This page is password protected
-        </Heading>
-        <Column fillWidth gap="8" horizontal="center">
-          <PasswordInput
-            id="password"
-            label="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            errorMessage={error}
-          />
-          <Button onClick={handlePasswordSubmit}>Submit</Button>
-        </Column>
-      </Column>
+      <div className="flex flex-col items-center justify-center min-h-[50vh] w-full max-w-md mx-auto py-20 px-4 gap-8">
+        <div className="flex flex-col items-center gap-4 text-center">
+          <div className="p-4 rounded-full bg-secondary/20 border border-border/50 backdrop-blur-md">
+            <Lock className="w-8 h-8 text-primary" />
+          </div>
+          <h2 className="text-3xl font-bold tracking-tight">Protected Page</h2>
+          <p className="text-muted-foreground">
+            This page is password protected. Please enter the password to
+            continue.
+          </p>
+        </div>
+
+        <div className="w-full space-y-4">
+          <div className="space-y-2">
+            <Input
+              id="password"
+              type="password"
+              placeholder="Enter password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="h-12 rounded-2xl bg-background/50 border-border/40 focus:border-primary/50"
+            />
+            {error && (
+              <p className="text-destructive text-sm font-medium ml-2">
+                {error}
+              </p>
+            )}
+          </div>
+          <Button
+            onClick={handlePasswordSubmit}
+            className="w-full h-12 rounded-full font-bold shadow-lg transition-all"
+          >
+            Access Page
+          </Button>
+        </div>
+      </div>
     );
   }
 

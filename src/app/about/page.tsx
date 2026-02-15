@@ -1,31 +1,22 @@
-import {
-  Avatar,
-  Button,
-  Column,
-  Heading,
-  Icon,
-  IconButton,
-  Media,
-  Tag,
-  Text,
-  Meta,
-  Schema,
-  Row,
-} from "@once-ui-system/core";
+"use client";
+
 import { baseURL, about, person, social } from "@/resources";
 import TableOfContents from "@/components/about/TableOfContents";
-import styles from "@/components/about/about.module.scss";
 import React from "react";
-
-export async function generateMetadata() {
-  return Meta.generate({
-    title: about.title,
-    description: about.description,
-    baseURL: baseURL,
-    image: `/api/og/generate?title=${encodeURIComponent(about.title)}`,
-    path: about.path,
-  });
-}
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { RevealFx } from "@/components";
+import {
+  Calendar,
+  Globe,
+  ChevronRight,
+  Mail,
+  Github,
+  Linkedin,
+  Twitter,
+  Instagram,
+} from "lucide-react";
 
 export default function About() {
   const structure = [
@@ -50,293 +41,295 @@ export default function About() {
       items: about.technical.skills.map((skill) => skill.title),
     },
   ];
+
+  const getIcon = (name: string) => {
+    switch (name.toLowerCase()) {
+      case "github":
+        return <Github className="w-4 h-4" />;
+      case "linkedin":
+        return <Linkedin className="w-4 h-4" />;
+      case "x":
+      case "twitter":
+        return <Twitter className="w-4 h-4" />;
+      case "instagram":
+        return <Instagram className="w-4 h-4" />;
+      case "email":
+        return <Mail className="w-4 h-4" />;
+      default:
+        return null;
+    }
+  };
+
   return (
-    <Column maxWidth="m">
-      <Schema
-        as="webPage"
-        baseURL={baseURL}
-        title={about.title}
-        description={about.description}
-        path={about.path}
-        image={`/api/og/generate?title=${encodeURIComponent(about.title)}`}
-        author={{
-          name: person.name,
-          url: `${baseURL}${about.path}`,
-          image: `${baseURL}${person.avatar}`,
-        }}
-      />
+    <div className="w-full flex flex-col items-center gap-12 py-12 px-4 md:px-8">
       {about.tableOfContent.display && (
-        <Column
-          left="0"
-          style={{ top: "50%", transform: "translateY(-50%)" }}
-          position="fixed"
-          paddingLeft="24"
-          gap="32"
-          s={{ hide: true }}
-        >
+        <aside className="fixed left-8 top-1/2 -translate-y-1/2 hidden xl:flex flex-col gap-8 z-20">
           <TableOfContents structure={structure} about={about} />
-        </Column>
+        </aside>
       )}
-      <Row fillWidth s={{ direction: "column"}} horizontal="center">
+
+      <div className="w-full max-w-7xl flex flex-col lg:flex-row gap-16">
+        {/* Left Column: Avatar & Quick Info */}
         {about.avatar.display && (
-          <Column
-            className={styles.avatar}
-            top="64"
-            fitHeight
-            position="sticky"
-            s={{ position: "relative", style: { top: "auto" } }}
-            xs={{ style: { top: "auto" } }}
-            minWidth="160"
-            paddingX="l"
-            paddingBottom="xl"
-            gap="m"
-            flex={3}
-            horizontal="center"
-          >
-            <Avatar src={person.avatar} size="xl" />
-            <Row gap="8" vertical="center">
-              <Icon onBackground="accent-weak" name="globe" />
-              {person.location}
-            </Row>
-            {person.languages && person.languages.length > 0 && (
-              <Row wrap gap="8">
-                {person.languages.map((language, index) => (
-                  <Tag key={index} size="l">
-                    {language}
-                  </Tag>
-                ))}
-              </Row>
-            )}
-          </Column>
+          <aside className="lg:w-1/4 flex flex-col items-center lg:items-start gap-8 sticky top-32 h-fit">
+            <RevealFx translateY={20}>
+              <div className="relative group">
+                <div className="absolute -inset-1 bg-linear-to-br from-primary via-purple-500 to-pink-500 rounded-2xl blur opacity-25 group-hover:opacity-50 transition duration-1000" />
+                <Avatar className="w-48 h-48 md:w-64 md:h-64 border-2 border-background shadow-2xl rounded-2xl">
+                  <AvatarImage src={person.avatar} className="object-cover" />
+                  <AvatarFallback className="text-4xl">
+                    {person.name[0]}
+                  </AvatarFallback>
+                </Avatar>
+              </div>
+            </RevealFx>
+
+            <div className="flex flex-col gap-4 items-center lg:items-start">
+              <RevealFx translateY={10} delay={0.2}>
+                <div className="flex items-center gap-2 text-muted-foreground font-medium">
+                  <Globe className="w-4 h-4 text-primary" />
+                  <span>{person.location}</span>
+                </div>
+              </RevealFx>
+
+              {person.languages && person.languages.length > 0 && (
+                <RevealFx translateY={10} delay={0.3}>
+                  <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
+                    {person.languages.map((language, index) => (
+                      <Badge
+                        key={index}
+                        variant="secondary"
+                        className="rounded-full px-3"
+                      >
+                        {language}
+                      </Badge>
+                    ))}
+                  </div>
+                </RevealFx>
+              )}
+            </div>
+          </aside>
         )}
-        <Column className={styles.blockAlign} flex={9} maxWidth={40}>
-          <Column
+
+        {/* Right Column: Main Content */}
+        <main className="lg:w-3/4 flex flex-col gap-24">
+          <section
             id={about.intro.title}
-            fillWidth
-            minHeight="160"
-            vertical="center"
-            marginBottom="32"
+            className="flex flex-col gap-8 items-center lg:items-start"
           >
-            {about.calendar.display && (
-              <Row
-                fitWidth
-                border="brand-alpha-medium"
-                background="brand-alpha-weak"
-                radius="full"
-                padding="4"
-                gap="8"
-                marginBottom="m"
-                vertical="center"
-                className={styles.blockAlign}
-                style={{
-                  backdropFilter: "blur(var(--static-space-1))",
-                }}
-              >
-                <Icon paddingLeft="12" name="calendar" onBackground="brand-weak" />
-                <Row paddingX="8">Schedule a call</Row>
-                <IconButton
-                  href={about.calendar.link}
-                  data-border="rounded"
-                  variant="secondary"
-                  icon="chevronRight"
-                />
-              </Row>
-            )}
-            <Heading className={styles.textAlign} variant="display-strong-xl">
-              {person.name}
-            </Heading>
-            <Text
-              className={styles.textAlign}
-              variant="display-default-xs"
-              onBackground="neutral-weak"
-            >
-              {person.role}
-            </Text>
-            {social.length > 0 && (
-              <Row
-                className={styles.blockAlign}
-                paddingTop="20"
-                paddingBottom="8"
-                gap="8"
-                wrap
-                horizontal="center"
-                fitWidth
-                data-border="rounded"
-              >
-                {social
-                      .filter((item) => item.essential)
-                      .map(
-                  (item) =>
-                    item.link && (
-                      <React.Fragment key={item.name}>
-                        <Row s={{ hide: true }}>
-                          <Button
-                            key={item.name}
-                            href={item.link}
-                            prefixIcon={item.icon}
-                            label={item.name}
-                            size="s"
-                            weight="default"
-                            variant="secondary"
-                          />
-                        </Row>
-                        <Row hide s={{ hide: false }}>
-                          <IconButton
-                            size="l"
-                            key={`${item.name}-icon`}
-                            href={item.link}
-                            icon={item.icon}
-                            variant="secondary"
-                          />
-                        </Row>
-                      </React.Fragment>
-                    ),
+            <RevealFx translateY={20}>
+              <div className="flex flex-col gap-2 items-center lg:items-start text-center lg:text-left">
+                {about.calendar.display && (
+                  <Button
+                    asChild
+                    variant="outline"
+                    className="rounded-full h-10 px-4 glass border-primary/20 hover:bg-primary/5 transition-all mb-4"
+                  >
+                    <a href={about.calendar.link}>
+                      <Calendar className="w-4 h-4 mr-2 text-primary" />
+                      <span className="text-sm font-medium">
+                        Schedule a call
+                      </span>
+                      <ChevronRight className="w-4 h-4 ml-2 opacity-50" />
+                    </a>
+                  </Button>
                 )}
-              </Row>
+                <h1 className="text-5xl md:text-7xl font-black tracking-tighter text-gradient leading-none">
+                  {person.name}
+                </h1>
+                <p className="text-2xl md:text-3xl font-semibold text-muted-foreground tracking-tight">
+                  {person.role}
+                </p>
+              </div>
+            </RevealFx>
+
+            {social.length > 0 && (
+              <RevealFx translateY={10} delay={0.4}>
+                <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
+                  {social
+                    .filter((item) => item.essential)
+                    .map((item) => (
+                      <Button
+                        key={item.name}
+                        variant="secondary"
+                        size="sm"
+                        className="rounded-full px-4 flex gap-2 h-9 border border-border/50 hover:border-primary/50 transition-all"
+                        asChild
+                      >
+                        <a href={item.link}>
+                          {getIcon(item.name)}
+                          <span>{item.name}</span>
+                        </a>
+                      </Button>
+                    ))}
+                </div>
+              </RevealFx>
             )}
-          </Column>
 
-          {about.intro.display && (
-            <Column textVariant="body-default-l" fillWidth gap="m" marginBottom="xl">
-              {about.intro.description}
-            </Column>
-          )}
+            {about.intro.display && (
+              <RevealFx translateY={20} delay={0.5}>
+                <div className="text-xl md:text-2xl leading-relaxed text-muted-foreground/90 max-w-3xl">
+                  {about.intro.description}
+                </div>
+              </RevealFx>
+            )}
+          </section>
 
+          {/* Experience Section */}
           {about.work.display && (
-            <>
-              <Heading as="h2" id={about.work.title} variant="display-strong-s" marginBottom="m">
-                {about.work.title}
-              </Heading>
-              <Column fillWidth gap="l" marginBottom="40">
+            <section id={about.work.title} className="flex flex-col gap-12">
+              <RevealFx translateY={20}>
+                <h2 className="text-3xl md:text-5xl font-black tracking-tighter text-gradient">
+                  {about.work.title}
+                </h2>
+              </RevealFx>
+
+              <div className="flex flex-col gap-16">
                 {about.work.experiences.map((experience, index) => (
-                  <Column key={`${experience.company}-${experience.role}-${index}`} fillWidth>
-                    <Row fillWidth horizontal="between" vertical="end" marginBottom="4">
-                      <Text id={experience.company} variant="heading-strong-l">
-                        {experience.company}
-                      </Text>
-                      <Text variant="heading-default-xs" onBackground="neutral-weak">
-                        {experience.timeframe}
-                      </Text>
-                    </Row>
-                    <Text variant="body-default-s" onBackground="brand-weak" marginBottom="m">
-                      {experience.role}
-                    </Text>
-                    <Column as="ul" gap="16">
-                      {experience.achievements.map(
-                        (achievement: React.ReactNode, index: number) => (
-                          <Text
-                            as="li"
-                            variant="body-default-m"
-                            key={`${experience.company}-${index}`}
-                          >
-                            {achievement}
-                          </Text>
-                        ),
+                  <RevealFx key={index} translateY={20} delay={index * 0.1}>
+                    <div className="group relative flex flex-col gap-6">
+                      <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-2">
+                        <div className="flex flex-col">
+                          <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">
+                            {experience.company}
+                          </h3>
+                          <span className="text-lg font-medium text-primary italic">
+                            {experience.role}
+                          </span>
+                        </div>
+                        <span className="text-sm md:text-base font-medium text-muted-foreground tabular-nums">
+                          {experience.timeframe}
+                        </span>
+                      </div>
+
+                      <ul className="grid gap-4 list-none p-0">
+                        {experience.achievements.map(
+                          (achievement: React.ReactNode, aIndex: number) => (
+                            <li
+                              key={aIndex}
+                              className="flex gap-3 text-lg text-muted-foreground leading-relaxed"
+                            >
+                              <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0 mt-3" />
+                              <span>{achievement}</span>
+                            </li>
+                          ),
+                        )}
+                      </ul>
+
+                      {experience.images && experience.images.length > 0 && (
+                        <div className="flex flex-wrap gap-4 pt-4">
+                          {experience.images.map((image, iIndex) => (
+                            <div
+                              key={iIndex}
+                              className="rounded-xl overflow-hidden border border-border/50 shadow-md"
+                            >
+                              <img
+                                src={image.src}
+                                alt={image.alt}
+                                width={image.width}
+                                height={image.height}
+                                className="object-cover"
+                              />
+                            </div>
+                          ))}
+                        </div>
                       )}
-                    </Column>
-                    {experience.images && experience.images.length > 0 && (
-                      <Row fillWidth paddingTop="m" paddingLeft="40" gap="12" wrap>
-                        {experience.images.map((image, index) => (
-                          <Row
-                            key={index}
-                            border="neutral-medium"
-                            radius="m"
-                            minWidth={image.width}
-                            height={image.height}
-                          >
-                            <Media
-                              enlarge
-                              radius="m"
-                              sizes={image.width.toString()}
-                              alt={image.alt}
-                              src={image.src}
-                            />
-                          </Row>
-                        ))}
-                      </Row>
-                    )}
-                  </Column>
+                    </div>
+                  </RevealFx>
                 ))}
-              </Column>
-            </>
+              </div>
+            </section>
           )}
 
+          {/* Education Section */}
           {about.studies.display && (
-            <>
-              <Heading as="h2" id={about.studies.title} variant="display-strong-s" marginBottom="m">
-                {about.studies.title}
-              </Heading>
-              <Column fillWidth gap="l" marginBottom="40">
+            <section id={about.studies.title} className="flex flex-col gap-12">
+              <RevealFx translateY={20}>
+                <h2 className="text-3xl md:text-5xl font-black tracking-tighter text-gradient">
+                  {about.studies.title}
+                </h2>
+              </RevealFx>
+
+              <div className="grid md:grid-cols-2 gap-8">
                 {about.studies.institutions.map((institution, index) => (
-                  <Column key={`${institution.name}-${index}`} fillWidth gap="4">
-                    <Text id={institution.name} variant="heading-strong-l">
-                      {institution.name}
-                    </Text>
-                    <Text variant="heading-default-xs" onBackground="neutral-weak">
-                      {institution.description}
-                    </Text>
-                  </Column>
+                  <RevealFx key={index} translateY={20} delay={index * 0.1}>
+                    <div className="p-8 rounded-3xl bg-secondary/5 border border-border/40 backdrop-blur-sm flex flex-col gap-2">
+                      <h3 className="text-xl font-bold">{institution.name}</h3>
+                      <p className="text-muted-foreground">
+                        {institution.description}
+                      </p>
+                    </div>
+                  </RevealFx>
                 ))}
-              </Column>
-            </>
+              </div>
+            </section>
           )}
 
+          {/* Skills Section */}
           {about.technical.display && (
-            <>
-              <Heading
-                as="h2"
-                id={about.technical.title}
-                variant="display-strong-s"
-                marginBottom="40"
-              >
-                {about.technical.title}
-              </Heading>
-              <Column fillWidth gap="l">
+            <section
+              id={about.technical.title}
+              className="flex flex-col gap-12"
+            >
+              <RevealFx translateY={20}>
+                <h2 className="text-3xl md:text-5xl font-black tracking-tighter text-gradient">
+                  {about.technical.title}
+                </h2>
+              </RevealFx>
+
+              <div className="flex flex-col gap-16">
                 {about.technical.skills.map((skill, index) => (
-                  <Column key={`${skill}-${index}`} fillWidth gap="4">
-                    <Text id={skill.title} variant="heading-strong-l">
-                      {skill.title}
-                    </Text>
-                    <Text variant="body-default-m" onBackground="neutral-weak">
-                      {skill.description}
-                    </Text>
-                    {skill.tags && skill.tags.length > 0 && (
-                      <Row wrap gap="8" paddingTop="8">
-                        {skill.tags.map((tag, tagIndex) => (
-                          <Tag key={`${skill.title}-${tagIndex}`} size="l" prefixIcon={tag.icon}>
-                            {tag.name}
-                          </Tag>
-                        ))}
-                      </Row>
-                    )}
-                    {skill.images && skill.images.length > 0 && (
-                      <Row fillWidth paddingTop="m" gap="12" wrap>
-                        {skill.images.map((image, index) => (
-                          <Row
-                            key={index}
-                            border="neutral-medium"
-                            radius="m"
-                            minWidth={image.width}
-                            height={image.height}
-                          >
-                            <Media
-                              enlarge
-                              radius="m"
-                              sizes={image.width.toString()}
-                              alt={image.alt}
-                              src={image.src}
-                            />
-                          </Row>
-                        ))}
-                      </Row>
-                    )}
-                  </Column>
+                  <RevealFx key={index} translateY={20} delay={index * 0.1}>
+                    <div className="flex flex-col gap-6">
+                      <div className="flex flex-col gap-1">
+                        <h3 className="text-2xl font-bold tracking-tight">
+                          {skill.title}
+                        </h3>
+                        <p className="text-lg text-muted-foreground leading-relaxed italic">
+                          {skill.description}
+                        </p>
+                      </div>
+
+                      {skill.tags && skill.tags.length > 0 && (
+                        <div className="flex flex-wrap gap-2">
+                          {skill.tags.map((tag, tagIndex) => (
+                            <Badge
+                              key={tagIndex}
+                              variant="secondary"
+                              className="rounded-full px-4 h-8 text-sm flex gap-2 border border-border/50"
+                            >
+                              {tag.name}
+                            </Badge>
+                          ))}
+                        </div>
+                      )}
+
+                      {skill.images && skill.images.length > 0 && (
+                        <div className="flex flex-wrap gap-4 pt-4">
+                          {skill.images.map((image, iIndex) => (
+                            <div
+                              key={iIndex}
+                              className="rounded-xl overflow-hidden border border-border/50 shadow-md"
+                            >
+                              <img
+                                src={image.src}
+                                alt={image.alt}
+                                width={image.width}
+                                height={image.height}
+                                className="object-cover"
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  </RevealFx>
                 ))}
-              </Column>
-            </>
+              </div>
+            </section>
           )}
-        </Column>
-      </Row>
-    </Column>
+        </main>
+      </div>
+    </div>
   );
 }

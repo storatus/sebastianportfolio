@@ -1,11 +1,15 @@
 "use client";
 
 import { mailchimp, newsletter } from "@/resources";
-import { Button, Heading, Input, Text, Background, Column, Row } from "@once-ui-system/core";
-import { opacity, SpacingToken } from "@once-ui-system/core";
 import { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
-function debounce<T extends (...args: any[]) => void>(func: T, delay: number): T {
+function debounce<T extends (...args: any[]) => void>(
+  func: T,
+  delay: number,
+): T {
   let timeout: ReturnType<typeof setTimeout>;
   return ((...args: Parameters<T>) => {
     clearTimeout(timeout);
@@ -13,7 +17,7 @@ function debounce<T extends (...args: any[]) => void>(func: T, delay: number): T
   }) as T;
 }
 
-export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({ ...flex }) => {
+export const Mailchimp: React.FC<{ className?: string }> = ({ className }) => {
   const [email, setEmail] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [touched, setTouched] = useState<boolean>(false);
@@ -50,118 +54,64 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({ ...fl
   if (newsletter.display === false) return null;
 
   return (
-    <Column
-      overflow="hidden"
-      fillWidth
-      padding="xl"
-      radius="l"
-      marginBottom="m"
-      horizontal="center"
-      align="center"
-      background="surface"
-      border="neutral-alpha-weak"
-      {...flex}
+    <div
+      className={cn(
+        "relative overflow-hidden w-full p-8 md:p-12 rounded-[2.5rem] bg-secondary/5 border border-border/40 backdrop-blur-md shadow-xl flex flex-col items-center gap-8",
+        className,
+      )}
     >
-      <Background
-        top="0"
-        position="absolute"
-        mask={{
-          x: mailchimp.effects.mask.x,
-          y: mailchimp.effects.mask.y,
-          radius: mailchimp.effects.mask.radius,
-          cursor: mailchimp.effects.mask.cursor,
-        }}
-        gradient={{
-          display: mailchimp.effects.gradient.display,
-          opacity: mailchimp.effects.gradient.opacity as opacity,
-          x: mailchimp.effects.gradient.x,
-          y: mailchimp.effects.gradient.y,
-          width: mailchimp.effects.gradient.width,
-          height: mailchimp.effects.gradient.height,
-          tilt: mailchimp.effects.gradient.tilt,
-          colorStart: mailchimp.effects.gradient.colorStart,
-          colorEnd: mailchimp.effects.gradient.colorEnd,
-        }}
-        dots={{
-          display: mailchimp.effects.dots.display,
-          opacity: mailchimp.effects.dots.opacity as opacity,
-          size: mailchimp.effects.dots.size as SpacingToken,
-          color: mailchimp.effects.dots.color,
-        }}
-        grid={{
-          display: mailchimp.effects.grid.display,
-          opacity: mailchimp.effects.grid.opacity as opacity,
-          color: mailchimp.effects.grid.color,
-          width: mailchimp.effects.grid.width,
-          height: mailchimp.effects.grid.height,
-        }}
-        lines={{
-          display: mailchimp.effects.lines.display,
-          opacity: mailchimp.effects.lines.opacity as opacity,
-          size: mailchimp.effects.lines.size as SpacingToken,
-          thickness: mailchimp.effects.lines.thickness,
-          angle: mailchimp.effects.lines.angle,
-          color: mailchimp.effects.lines.color,
-        }}
-      />
-      <Column maxWidth="xs" horizontal="center">
-        <Heading marginBottom="s" variant="display-strong-xs">
+      {/* Background Decorative Elements - simpler than once-ui Background */}
+      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent opacity-50" />
+
+      <div className="max-w-md w-full text-center space-y-4 relative z-10">
+        <h3 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground/90">
           {newsletter.title}
-        </Heading>
-        <Text wrap="balance" marginBottom="l" variant="body-default-l" onBackground="neutral-weak">
+        </h3>
+        <p className="text-muted-foreground text-lg text-balance opacity-80">
           {newsletter.description}
-        </Text>
-      </Column>
+        </p>
+      </div>
+
       <form
-        style={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-        }}
+        className="w-full max-w-md relative z-10"
         action={mailchimp.action}
         method="post"
         id="mc-embedded-subscribe-form"
         name="mc-embedded-subscribe-form"
       >
-        <Row
-          id="mc_embed_signup_scroll"
-          fillWidth
-          maxWidth={24}
-          s={{ direction: "column" }}
-          gap="8"
-        >
-          <Input
-            formNoValidate
-            id="mce-EMAIL"
-            name="EMAIL"
-            type="email"
-            placeholder="Email"
-            required
-            onChange={(e) => {
-              if (error) {
-                handleChange(e);
-              } else {
-                debouncedHandleChange(e);
-              }
-            }}
-            onBlur={handleBlur}
-            errorMessage={error}
-          />
-          <div style={{ display: "none" }}>
-            <input
-              type="checkbox"
-              readOnly
-              name="group[3492][1]"
-              id="mce-group[3492]-3492-0"
-              value=""
-              checked
+        <div className="flex flex-col sm:flex-row items-start gap-4">
+          <div className="w-full space-y-2">
+            <Input
+              id="mce-EMAIL"
+              name="EMAIL"
+              type="email"
+              placeholder="Enter your email"
+              required
+              className={cn(
+                "h-14 rounded-2xl bg-background/50 border-border/40 focus:border-primary/50 focus:ring-primary/20",
+                error && "border-destructive focus:border-destructive",
+              )}
+              onChange={(e) => {
+                if (error) {
+                  handleChange(e);
+                } else {
+                  debouncedHandleChange(e);
+                }
+              }}
+              onBlur={handleBlur}
             />
+            {error && (
+              <p className="text-destructive text-sm font-medium ml-2 animate-in fade-in slide-in-from-top-1">
+                {error}
+              </p>
+            )}
           </div>
-          <div id="mce-responses" className="clearfalse">
-            <div className="response" id="mce-error-response" style={{ display: "none" }}></div>
-            <div className="response" id="mce-success-response" style={{ display: "none" }}></div>
-          </div>
-          <div aria-hidden="true" style={{ position: "absolute", left: "-5000px" }}>
+
+          {/* Honeypot field */}
+          <div
+            aria-hidden="true"
+            style={{ position: "absolute", left: "-5000px" }}
+          >
             <input
               type="text"
               readOnly
@@ -170,15 +120,16 @@ export const Mailchimp: React.FC<React.ComponentProps<typeof Column>> = ({ ...fl
               value=""
             />
           </div>
-          <div className="clear">
-            <Row height="48" vertical="center">
-              <Button id="mc-embedded-subscribe" value="Subscribe" size="m" fillWidth>
-                Subscribe
-              </Button>
-            </Row>
-          </div>
-        </Row>
+
+          <Button
+            type="submit"
+            id="mc-embedded-subscribe"
+            className="w-full sm:w-auto h-14 rounded-full px-8 text-lg font-bold shadow-lg hover:shadow-xl transition-all active:scale-95 whitespace-nowrap"
+          >
+            Subscribe
+          </Button>
+        </div>
       </form>
-    </Column>
+    </div>
   );
 };

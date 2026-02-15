@@ -1,8 +1,12 @@
 "use client";
 
-import { Card, Column, Media, Row, Avatar, Text } from "@once-ui-system/core";
 import { formatDate } from "@/utils/formatDate";
 import { person } from "@/resources";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 interface PostProps {
   post: any;
@@ -10,54 +14,65 @@ interface PostProps {
   direction?: "row" | "column";
 }
 
-export default function Post({ post, thumbnail, direction }: PostProps) {
+export default function Post({
+  post,
+  thumbnail,
+  direction = "column",
+}: PostProps) {
+  const isRow = direction === "row";
+
   return (
-    <Card
-      fillWidth
-      key={post.slug}
-      href={`/blog/${post.slug}`}
-      transition="micro-medium"
-      direction={direction}
-      border="transparent"
-      background="transparent"
-      padding="4"
-      radius="l-4"
-      gap={direction === "column" ? undefined : "24"}
-      s={{ direction: "column" }}
-    >
-      {post.metadata.image && thumbnail && (
-        <Media
-          priority
-          sizes="(max-width: 768px) 100vw, 640px"
-          border="neutral-alpha-weak"
-          cursor="interactive"
-          radius="l"
-          src={post.metadata.image}
-          alt={"Thumbnail of " + post.metadata.title}
-          aspectRatio="16 / 9"
-        />
-      )}
-      <Row fillWidth>
-        <Column maxWidth={28} paddingY="24" paddingX="l" gap="20" vertical="center">
-          <Row gap="24" vertical="center">
-            <Row vertical="center" gap="16">
-              <Avatar src={person.avatar} size="s" />
-              <Text variant="label-default-s">{person.name}</Text>
-            </Row>
-            <Text variant="body-default-xs" onBackground="neutral-weak">
+    <Link href={`/blog/${post.slug}`} className="block group">
+      <Card
+        className={cn(
+          "overflow-hidden border-border/40 bg-secondary/5 backdrop-blur-sm transition-all duration-500 hover:border-border hover:shadow-xl hover:bg-secondary/10 flex h-full rounded-3xl",
+          isRow ? "flex-col md:flex-row" : "flex-col",
+        )}
+      >
+        {post.metadata.image && thumbnail && (
+          <div
+            className={cn(
+              "relative overflow-hidden aspect-video",
+              isRow ? "md:w-2/5" : "w-full",
+            )}
+          >
+            <img
+              src={post.metadata.image}
+              alt={post.metadata.title}
+              className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
+            />
+          </div>
+        )}
+        <div className="flex flex-col p-6 flex-1 gap-4">
+          <div className="flex items-center gap-3">
+            <Avatar className="w-6 h-6 border border-border/50">
+              <AvatarImage src={person.avatar} />
+              <AvatarFallback>{person.name[0]}</AvatarFallback>
+            </Avatar>
+            <span className="text-sm font-medium text-foreground/80">
+              {person.name}
+            </span>
+            <span className="text-xs text-muted-foreground">•</span>
+            <span className="text-xs text-muted-foreground font-medium uppercase tracking-wider">
               {formatDate(post.metadata.publishedAt, false)}
-            </Text>
-          </Row>
-          <Text variant="heading-strong-l" wrap="balance">
-            {post.metadata.title}
-          </Text>
-          {post.metadata.tag && (
-            <Text variant="label-strong-s" onBackground="neutral-weak">
-              {post.metadata.tag}
-            </Text>
-          )}
-        </Column>
-      </Row>
-    </Card>
+            </span>
+          </div>
+
+          <div className="space-y-3">
+            <h3 className="text-2xl font-bold tracking-tight text-foreground transition-colors group-hover:text-primary leading-snug">
+              {post.metadata.title}
+            </h3>
+            {post.metadata.tag && (
+              <Badge
+                variant="outline"
+                className="text-[10px] uppercase tracking-widest bg-primary/5 text-primary border-primary/20 rounded-full px-3"
+              >
+                {post.metadata.tag}
+              </Badge>
+            )}
+          </div>
+        </div>
+      </Card>
+    </Link>
   );
 }

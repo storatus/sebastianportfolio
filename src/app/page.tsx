@@ -1,130 +1,75 @@
-import {
-  Heading,
-  Text,
-  Button,
-  Avatar,
-  RevealFx,
-  Column,
-  Badge,
-  Row,
-  Schema,
-  Meta,
-  Line,
-} from "@once-ui-system/core";
 import { home, about, person, baseURL, routes } from "@/resources";
-import { Mailchimp } from "@/components";
+import { Mailchimp, Hero, RevealFx } from "@/components";
 import { Projects } from "@/components/work/Projects";
 import { Posts } from "@/components/blog/Posts";
-
-export async function generateMetadata() {
-  return Meta.generate({
-    title: home.title,
-    description: home.description,
-    baseURL: baseURL,
-    path: home.path,
-    image: home.image,
-  });
-}
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 export default function Home() {
   return (
-    <Column maxWidth="m" gap="xl" paddingY="12" horizontal="center">
-      <Schema
-        as="webPage"
-        baseURL={baseURL}
-        path={home.path}
-        title={home.title}
-        description={home.description}
-        image={`/api/og/generate?title=${encodeURIComponent(home.title)}`}
-        author={{
-          name: person.name,
-          url: `${baseURL}${about.path}`,
-          image: `${baseURL}${person.avatar}`,
-        }}
-      />
-      <Column fillWidth horizontal="center" gap="m">
-        <Column maxWidth="s" horizontal="center" align="center">
-          {home.featured.display && (
-            <RevealFx
-              fillWidth
-              horizontal="center"
-              paddingTop="16"
-              paddingBottom="32"
-              paddingLeft="12"
-            >
+    <div className="flex flex-col items-center gap-24 py-12 md:py-20 w-full">
+      <section className="w-full flex flex-col items-center gap-8">
+        {home.featured.display && (
+          <RevealFx translateY="4">
+            <Link href={home.featured.href || "#"}>
               <Badge
-                background="brand-alpha-weak"
-                paddingX="12"
-                paddingY="4"
-                onBackground="neutral-strong"
-                textVariant="label-default-s"
-                arrow={false}
-                href={home.featured.href}
+                variant="secondary"
+                className="px-4 py-1.5 flex items-center gap-2 rounded-full glass hover:bg-secondary/40 transition-all cursor-pointer group"
               >
-                <Row paddingY="2">{home.featured.title}</Row>
+                <span className="text-sm font-medium">
+                  {home.featured.title}
+                </span>
+                <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
               </Badge>
-            </RevealFx>
-          )}
-          <RevealFx translateY="4" fillWidth horizontal="center" paddingBottom="16">
-            <Heading wrap="balance" variant="display-strong-l">
-              {home.headline}
-            </Heading>
+            </Link>
           </RevealFx>
-          <RevealFx translateY="8" delay={0.2} fillWidth horizontal="center" paddingBottom="32">
-            <Text wrap="balance" onBackground="neutral-weak" variant="heading-default-xl">
-              {home.subline}
-            </Text>
-          </RevealFx>
-          <RevealFx paddingTop="12" delay={0.4} horizontal="center" paddingLeft="12">
-            <Button
-              id="about"
-              data-border="rounded"
-              href={about.path}
-              variant="secondary"
-              size="m"
-              weight="default"
-              arrowIcon
-            >
-              <Row gap="8" vertical="center" paddingRight="4">
-                {about.avatar.display && (
-                  <Avatar
-                    marginRight="8"
-                    style={{ marginLeft: "-0.75rem" }}
-                    src={person.avatar}
-                    size="m"
-                  />
-                )}
-                {about.title}
-              </Row>
-            </Button>
-          </RevealFx>
-        </Column>
-      </Column>
-      <RevealFx translateY="16" delay={0.6}>
-        <Projects range={[1, 1]} />
-      </RevealFx>
+        )}
+
+        <div className="w-full">
+          <Hero headline={home.headline} subline={home.subline} />
+        </div>
+      </section>
+
+      {/* Featured Projects */}
+      <section className="w-full space-y-12">
+        <RevealFx translateY="20" delay={0.6}>
+          <Projects range={[1, 1]} />
+        </RevealFx>
+      </section>
+
+      {/* Blog Teaser */}
       {routes["/blog"] && (
-        <Column fillWidth gap="24" marginBottom="l">
-          <Row fillWidth paddingRight="64">
-            <Line maxWidth={48} />
-          </Row>
-          <Row fillWidth gap="24" marginTop="40" s={{ direction: "column" }}>
-            <Row flex={1} paddingLeft="l" paddingTop="24">
-              <Heading as="h2" variant="display-strong-xs" wrap="balance">
-                Latest from the blog
-              </Heading>
-            </Row>
-            <Row flex={3} paddingX="20">
-              <Posts range={[1, 2]} columns="2" />
-            </Row>
-          </Row>
-          <Row fillWidth paddingLeft="64" horizontal="end">
-            <Line maxWidth={48} />
-          </Row>
-        </Column>
+        <section className="w-full flex flex-col gap-16 px-4">
+          <div className="flex items-center gap-6 md:gap-12">
+            <Separator className="flex-1 opacity-20" />
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground/90 whitespace-nowrap">
+              Latest from the blog
+            </h2>
+            <Separator className="flex-1 opacity-20" />
+          </div>
+
+          <div className="w-full grid gap-8">
+            <Posts range={[1, 2]} columns="2" />
+          </div>
+        </section>
       )}
-      <Projects range={[2]} />
-      <Mailchimp />
-    </Column>
+
+      {/* More Projects */}
+      <section className="w-full">
+        <Projects range={[2]} />
+      </section>
+
+      {/* Newsletter / CTA */}
+      <section className="w-full max-w-5xl px-4">
+        <div className="relative p-10 md:p-20 rounded-[2.5rem] bg-gradient-to-br from-secondary/20 to-secondary/5 backdrop-blur-3xl border border-white/5 shadow-2xl overflow-hidden group">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 blur-[100px] rounded-full -mr-20 -mt-20 transition-all group-hover:bg-primary/20" />
+          <div className="relative z-10">
+            <Mailchimp />
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }

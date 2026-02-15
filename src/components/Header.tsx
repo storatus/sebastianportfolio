@@ -2,19 +2,31 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-
-import { Fade, Flex, Line, Row, ToggleButton } from "@once-ui-system/core";
-
-import { routes, display, person, about, blog, work, gallery } from "@/resources";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import {
+  routes,
+  display,
+  person,
+  about,
+  blog,
+  work,
+  gallery,
+} from "@/resources";
 import { ThemeToggle } from "./ThemeToggle";
-import styles from "./Header.module.scss";
+import { Home, User, Grid, Book, Image as ImageIcon } from "lucide-react";
 
 type TimeDisplayProps = {
   timeZone: string;
-  locale?: string; // Optionally allow locale, defaulting to 'en-GB'
+  locale?: string;
 };
 
-const TimeDisplay: React.FC<TimeDisplayProps> = ({ timeZone, locale = "en-GB" }) => {
+const TimeDisplay: React.FC<TimeDisplayProps> = ({
+  timeZone,
+  locale = "en-GB",
+}) => {
   const [currentTime, setCurrentTime] = useState("");
 
   useEffect(() => {
@@ -27,8 +39,12 @@ const TimeDisplay: React.FC<TimeDisplayProps> = ({ timeZone, locale = "en-GB" })
         second: "2-digit",
         hour12: false,
       };
-      const timeString = new Intl.DateTimeFormat(locale, options).format(now);
-      setCurrentTime(timeString);
+      try {
+        const timeString = new Intl.DateTimeFormat(locale, options).format(now);
+        setCurrentTime(timeString);
+      } catch (e) {
+        console.error("Invalid timezone or locale:", e);
+      }
     };
 
     updateTime();
@@ -37,158 +53,126 @@ const TimeDisplay: React.FC<TimeDisplayProps> = ({ timeZone, locale = "en-GB" })
     return () => clearInterval(intervalId);
   }, [timeZone, locale]);
 
-  return <>{currentTime}</>;
+  return <span className="tabular-nums">{currentTime}</span>;
 };
 
-export default TimeDisplay;
+export { TimeDisplay };
 
 export const Header = () => {
   const pathname = usePathname() ?? "";
 
+  const navItems = [
+    {
+      href: "/",
+      icon: <Home className="w-4 h-4" />,
+      label: "Home",
+      active: pathname === "/",
+    },
+    {
+      href: "/about",
+      icon: <User className="w-4 h-4" />,
+      label: about.label,
+      active: pathname === "/about",
+      condition: routes["/about"],
+    },
+    {
+      href: "/work",
+      icon: <Grid className="w-4 h-4" />,
+      label: work.label,
+      active: pathname.startsWith("/work"),
+      condition: routes["/work"],
+    },
+    {
+      href: "/blog",
+      icon: <Book className="w-4 h-4" />,
+      label: blog.label,
+      active: pathname.startsWith("/blog"),
+      condition: routes["/blog"],
+    },
+    {
+      href: "/gallery",
+      icon: <ImageIcon className="w-4 h-4" />,
+      label: gallery.label,
+      active: pathname.startsWith("/gallery"),
+      condition: routes["/gallery"],
+    },
+  ];
+
   return (
-    <>
-      <Fade s={{ hide: true }} fillWidth position="fixed" height="80" zIndex={9} />
-      <Fade
-        hide
-        s={{ hide: false }}
-        fillWidth
-        position="fixed"
-        bottom="0"
-        to="top"
-        height="80"
-        zIndex={9}
-      />
-      <Row
-        fitHeight
-        className={styles.position}
-        position="sticky"
-        as="header"
-        zIndex={9}
-        fillWidth
-        padding="8"
-        horizontal="center"
-        data-border="rounded"
-        s={{
-          position: "fixed",
-        }}
-      >
-        <Row paddingLeft="12" fillWidth vertical="center" textVariant="body-default-s">
-          {display.location && <Row s={{ hide: true }}>{person.location}</Row>}
-        </Row>
-        <Row fillWidth horizontal="center">
-          <Row
-            background="page"
-            border="neutral-alpha-weak"
-            radius="m-4"
-            shadow="l"
-            padding="4"
-            horizontal="center"
-            zIndex={1}
-          >
-            <Row gap="4" vertical="center" textVariant="body-default-s" suppressHydrationWarning>
-              {routes["/"] && (
-                <ToggleButton prefixIcon="home" href="/" selected={pathname === "/"} />
-              )}
-              <Line background="neutral-alpha-medium" vert maxHeight="24" />
-              {routes["/about"] && (
-                <>
-                  <Row s={{ hide: true }}>
-                    <ToggleButton
-                      prefixIcon="person"
-                      href="/about"
-                      label={about.label}
-                      selected={pathname === "/about"}
-                    />
-                  </Row>
-                  <Row hide s={{ hide: false }}>
-                    <ToggleButton
-                      prefixIcon="person"
-                      href="/about"
-                      selected={pathname === "/about"}
-                    />
-                  </Row>
-                </>
-              )}
-              {routes["/work"] && (
-                <>
-                  <Row s={{ hide: true }}>
-                    <ToggleButton
-                      prefixIcon="grid"
-                      href="/work"
-                      label={work.label}
-                      selected={pathname.startsWith("/work")}
-                    />
-                  </Row>
-                  <Row hide s={{ hide: false }}>
-                    <ToggleButton
-                      prefixIcon="grid"
-                      href="/work"
-                      selected={pathname.startsWith("/work")}
-                    />
-                  </Row>
-                </>
-              )}
-              {routes["/blog"] && (
-                <>
-                  <Row s={{ hide: true }}>
-                    <ToggleButton
-                      prefixIcon="book"
-                      href="/blog"
-                      label={blog.label}
-                      selected={pathname.startsWith("/blog")}
-                    />
-                  </Row>
-                  <Row hide s={{ hide: false }}>
-                    <ToggleButton
-                      prefixIcon="book"
-                      href="/blog"
-                      selected={pathname.startsWith("/blog")}
-                    />
-                  </Row>
-                </>
-              )}
-              {routes["/gallery"] && (
-                <>
-                  <Row s={{ hide: true }}>
-                    <ToggleButton
-                      prefixIcon="gallery"
-                      href="/gallery"
-                      label={gallery.label}
-                      selected={pathname.startsWith("/gallery")}
-                    />
-                  </Row>
-                  <Row hide s={{ hide: false }}>
-                    <ToggleButton
-                      prefixIcon="gallery"
-                      href="/gallery"
-                      selected={pathname.startsWith("/gallery")}
-                    />
-                  </Row>
-                </>
-              )}
-              {display.themeSwitcher && (
-                <>
-                  <Line background="neutral-alpha-medium" vert maxHeight="24" />
-                  <ThemeToggle />
-                </>
-              )}
-            </Row>
-          </Row>
-        </Row>
-        <Flex fillWidth horizontal="end" vertical="center">
-          <Flex
-            paddingRight="12"
-            horizontal="end"
-            vertical="center"
-            textVariant="body-default-s"
-            gap="20"
-          >
-            <Flex s={{ hide: true }}>
-              {display.time && <TimeDisplay timeZone={person.location} />}
-            </Flex>
-          </Flex>
-        </Flex>
-      </Row>
-    </>
+    <header className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center">
+      {/* Top blur mask */}
+      <div className="absolute top-0 w-full h-20 bg-linear-to-b from-background/80 to-transparent backdrop-blur-sm pointer-events-none -z-10" />
+
+      <nav className="mt-4 px-4 py-2 flex items-center justify-between w-full max-w-7xl mx-auto">
+        {/* Left side: Location */}
+        <div className="hidden md:flex flex-1 items-center text-sm text-muted-foreground">
+          {display.location && <span>{person.location}</span>}
+        </div>
+
+        {/* Center: Navigation Bar */}
+        <div className="flex items-center gap-1 p-1 bg-background/20 backdrop-blur-xl border border-foreground/5 rounded-full shadow-2xl transition-all duration-300 hover:border-foreground/10 group">
+          {navItems.map((item, index) => {
+            if (item.condition === false) return null;
+            return (
+              <div key={item.href} className="flex items-center gap-1">
+                {index === 1 && (
+                  <Separator
+                    orientation="vertical"
+                    className="h-6 mx-1 bg-foreground/10"
+                  />
+                )}
+                <Button
+                  asChild
+                  variant="ghost"
+                  size="sm"
+                  className={cn(
+                    "rounded-full px-4 flex gap-2 transition-all duration-300 hover:bg-foreground/5 active:scale-95",
+                    item.active &&
+                      "bg-foreground/5 shadow-sm text-primary hover:bg-foreground/10",
+                  )}
+                >
+                  <Link href={item.href}>
+                    <div
+                      className={cn(
+                        "transition-transform duration-300",
+                        item.active ? "scale-110" : "group-hover:scale-105",
+                      )}
+                    >
+                      {item.icon}
+                    </div>
+                    <span
+                      className={cn(
+                        "hidden lg:inline font-medium tracking-tight",
+                        item.active && "inline",
+                      )}
+                    >
+                      {item.label}
+                    </span>
+                  </Link>
+                </Button>
+              </div>
+            );
+          })}
+
+          {display.themeSwitcher && (
+            <>
+              <Separator
+                orientation="vertical"
+                className="h-6 mx-1 bg-foreground/10"
+              />
+              <ThemeToggle />
+            </>
+          )}
+        </div>
+
+        {/* Right side: Time */}
+        <div className="hidden md:flex flex-1 justify-end items-center text-sm text-muted-foreground gap-5">
+          {display.time && <TimeDisplay timeZone={person.location} />}
+        </div>
+      </nav>
+
+      {/* Mobile bottom navigation fallback if needed - but user asked for modern/dev portfolio, sticky/top nav is usually preferred. 
+          The original had some logic for fixed bottom on mobile. I will keep it clean for now and test responsiveness. */}
+    </header>
   );
 };
