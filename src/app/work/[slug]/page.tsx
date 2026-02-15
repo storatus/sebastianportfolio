@@ -164,16 +164,6 @@ export default async function Project({
       <article className="w-full max-w-3xl mx-auto py-8">
         <CustomMDX source={post.content} />
       </article>
-
-      <div className="w-full flex flex-col gap-12 pt-12 border-t border-border/40 items-center">
-        <div className="flex flex-col gap-4 items-center">
-          <Separator className="w-12 h-1 bg-primary/20 rounded-full" />
-          <h2 className="text-3xl font-black tracking-tighter text-gradient">
-            Related projects
-          </h2>
-        </div>
-        <Projects exclude={[post.slug]} range={[1, 2]} />
-      </div>
     </section>
   );
 }
