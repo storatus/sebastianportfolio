@@ -87,7 +87,7 @@ export default async function Project({
   };
 
   return (
-    <section className="w-full max-w-4xl mx-auto py-12 px-4 md:px-0 flex flex-col items-center gap-12">
+    <section className="w-full max-w-4xl mx-auto py-12 px-4 md:px-0 flex flex-col items-center gap-8">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -107,9 +107,6 @@ export default async function Project({
         </Button>
 
         <div className="space-y-4">
-          <div className="text-sm font-medium text-muted-foreground">
-            {post.metadata.publishedAt && formatDate(post.metadata.publishedAt)}
-          </div>
           <h1 className="text-4xl md:text-6xl font-black tracking-tighter text-gradient leading-tight">
             {post.metadata.title}
           </h1>
