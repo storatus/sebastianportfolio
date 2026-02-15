@@ -107,7 +107,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
             {content?.trim() && (
               <Button
                 asChild
-                variant="default"
+                variant="secondary"
                 size="sm"
                 className="rounded-full px-6 gap-2 glass border-none hover:bg-primary transition-all shadow-md group/btn"
               >
