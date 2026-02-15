@@ -1,7 +1,7 @@
 import { home, about, person, baseURL, routes } from "@/resources";
 import { Mailchimp, Hero, RevealFx } from "@/components";
 import { Projects } from "@/components/work/Projects";
-import { Posts } from "@/components/blog/Posts";
+
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
@@ -38,23 +38,6 @@ export default function Home() {
           <Projects range={[1, 1]} />
         </RevealFx>
       </section>
-
-      {/* Blog Teaser */}
-      {routes["/blog"] && (
-        <section className="w-full flex flex-col gap-16 px-4">
-          <div className="flex items-center gap-6 md:gap-12">
-            <Separator className="flex-1 opacity-20" />
-            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground/90 whitespace-nowrap">
-              Latest from the blog
-            </h2>
-            <Separator className="flex-1 opacity-20" />
-          </div>
-
-          <div className="w-full grid gap-8">
-            <Posts range={[1, 2]} columns="2" />
-          </div>
-        </section>
-      )}
 
       {/* More Projects */}
       <section className="w-full">
