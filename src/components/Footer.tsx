@@ -2,9 +2,16 @@ import { person, social } from "@/resources";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { Github, Linkedin, Mail } from "lucide-react";
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
+
+  const iconMap: Record<string, React.ReactNode> = {
+    github: <Github className="w-5 h-5" />,
+    linkedin: <Linkedin className="w-5 h-5" />,
+    email: <Mail className="w-5 h-5" />,
+  };
 
   return (
     <footer className="w-full flex flex-col items-center py-12 px-6 border-t border-border/50 bg-secondary/10 backdrop-blur-sm">
@@ -13,16 +20,6 @@ export const Footer = () => {
           <span className="font-medium text-foreground">
             © {currentYear} {person.name}
           </span>
-          <span className="hidden md:inline h-4 w-[1px] bg-border/50" />
-          <p>
-            Build your portfolio with{" "}
-            <Link
-              href="https://once-ui.com/products/magic-portfolio"
-              className="text-primary hover:underline transition-all"
-            >
-              Once UI
-            </Link>
-          </p>
         </div>
 
         <div className="flex items-center gap-2">
@@ -42,12 +39,10 @@ export const Footer = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {/* Assuming item.icon is a string class name or similar that once-ui handled. 
-                        If it's an icon name, we might need a mapping or just icons from lucide. 
-                        For now I'll try to render it or use a fallback if it's a string. */}
                     <span className="text-xl group-hover:scale-110 transition-transform">
-                      {/* Placeholder for icon - social icons usually need specific mapping or standard icons */}
-                      <div className="w-5 h-5 bg-muted-foreground/20 rounded-sm" />
+                      {iconMap[item.icon] || (
+                        <div className="w-5 h-5 bg-muted-foreground/20 rounded-sm" />
+                      )}
                     </span>
                   </Link>
                 </Button>
