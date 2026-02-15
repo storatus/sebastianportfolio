@@ -14,7 +14,7 @@ const person: Person = {
   firstName: "Sebastian",
   lastName: "Glahn",
   name: `Sebastian Glahn`,
-  role: "Senior Software Engineer",
+  role: "Senior Full-Stack Engineer",
   avatar: "/images/avatarSebastian.jpg",
   email: "sebastian.glahn89@web.de",
   location: "America/La_Paz", // Santa Cruz, Bolivia
@@ -54,7 +54,7 @@ const home: Home = {
   label: "Home",
   title: `${person.name}'s Portfolio`,
   description: `Portfolio website showcasing my work as a ${person.role}`,
-  headline: <>Senior Software Engineer specializing in AI Applications</>,
+  headline: <>Senior Full-Stack Engineer specializing in AI Applications</>,
   featured: {
     display: false,
     title: (
