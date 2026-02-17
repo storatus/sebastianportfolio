@@ -171,6 +171,7 @@ export default async function Project({
         <ProjectImages
           images={post.metadata.images}
           title={post.metadata.title}
+          isMobile={post.metadata.isMobile}
         />
       )}
 

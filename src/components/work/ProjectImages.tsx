@@ -13,9 +13,14 @@ import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 interface ProjectImagesProps {
   images: string[];
   title: string;
+  isMobile?: boolean;
 }
 
-export function ProjectImages({ images, title }: ProjectImagesProps) {
+export function ProjectImages({
+  images,
+  title,
+  isMobile = false,
+}: ProjectImagesProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [startIndex, setStartIndex] = useState(0);
 
@@ -36,9 +41,18 @@ export function ProjectImages({ images, title }: ProjectImagesProps) {
         >
           <CarouselContent>
             {images.map((image, index) => (
-              <CarouselItem key={index}>
+              <CarouselItem
+                key={index}
+                className={
+                  isMobile
+                    ? "basis-full sm:basis-1/2 md:basis-1/3"
+                    : "basis-full"
+                }
+              >
                 <div
-                  className="relative aspect-video rounded-3xl overflow-hidden border border-border/40 shadow-2xl w-full cursor-zoom-in group"
+                  className={`relative ${
+                    isMobile ? "aspect-9/19" : "aspect-video"
+                  } rounded-3xl overflow-hidden border border-border/40 shadow-2xl w-full cursor-zoom-in group`}
                   onClick={() => openLightbox(index)}
                 >
                   <img
@@ -81,7 +95,9 @@ export function ProjectImages({ images, title }: ProjectImagesProps) {
                       <img
                         src={image}
                         alt={`${title} - ${index + 1}`}
-                        className="max-w-full max-h-[85vh] object-contain rounded-xl shadow-2xl"
+                        className={`max-w-full max-h-[85vh] ${
+                          isMobile ? "object-contain" : "object-contain"
+                        } rounded-xl shadow-2xl`}
                       />
                     </div>
                   </CarouselItem>

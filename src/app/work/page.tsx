@@ -31,9 +31,7 @@ export default function Work() {
       <Heading marginBottom="l" variant="heading-strong-xl" align="center">
         {work.title}
       </Heading>
-      <Projects
-        exclude={["automate-design-handovers-with-a-figma-to-code-pipeline"]}
-      />
+      <Projects include={["aihoo", "levelapp"]} />
     </Column>
   );
 }
