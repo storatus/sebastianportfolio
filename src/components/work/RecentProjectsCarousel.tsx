@@ -18,6 +18,7 @@ interface Project {
     images: string[];
     team: { avatar: string }[];
     link?: string;
+    isMobile?: boolean;
   };
   content: string;
 }
@@ -62,6 +63,7 @@ export function RecentProjectsCarousel({
                     })) || []
                   }
                   link={post.metadata.link || ""}
+                  isMobile={post.metadata.isMobile}
                 />
               </div>
             </CarouselItem>

@@ -133,6 +133,17 @@ const about: About = {
             accelerator program in Bolivia.
           </>,
           <>
+            Visit the platform at{" "}
+            <a
+              href="https://www.aihoo.ai"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:underline font-medium underline-offset-4"
+            >
+              www.aihoo.ai
+            </a>
+          </>,
+          <>
             Tech stack: Next.js, Vercel AI SDK, Tailwind CSS, and PostgreSQL.
           </>,
         ],

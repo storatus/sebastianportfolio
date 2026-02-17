@@ -30,7 +30,7 @@ export function Projects({ range, exclude, include }: ProjectsProps) {
     : sortedProjects;
 
   return (
-    <div className="flex flex-col gap-20 w-full max-w-7xl mx-auto px-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-7xl mx-auto px-4">
       {displayedProjects.map((post, index) => (
         <ProjectCard
           priority={index < 2}
@@ -44,6 +44,7 @@ export function Projects({ range, exclude, include }: ProjectsProps) {
             post.metadata.team?.map((member) => ({ src: member.avatar })) || []
           }
           link={post.metadata.link || ""}
+          isMobile={post.metadata.isMobile}
         />
       ))}
     </div>

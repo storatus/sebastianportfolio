@@ -30,6 +30,7 @@ interface ProjectCardProps {
   description: string;
   avatars: { src: string }[];
   link: string;
+  isMobile?: boolean;
 }
 
 export const ProjectCard: React.FC<ProjectCardProps> = ({
@@ -40,6 +41,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
   description,
   avatars = [],
   link,
+  isMobile = false,
 }) => {
   return (
     <Card className="group overflow-hidden border-border/50 bg-secondary/5 backdrop-blur-sm transition-all duration-500 hover:border-border hover:shadow-2xl flex flex-col h-full rounded-[2rem] relative">
@@ -57,11 +59,14 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
           <CarouselContent>
             {images.map((image, index) => (
               <CarouselItem key={index}>
-                <div className="relative w-full h-full">
+                <div className="relative w-full h-full bg-muted/10">
                   <img
                     src={image}
                     alt={`${title} - slide ${index + 1}`}
-                    className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
+                    className={cn(
+                      "transition-transform duration-700 group-hover:scale-105 w-full h-full",
+                      isMobile ? "object-contain" : "object-cover",
+                    )}
                   />
                 </div>
               </CarouselItem>
