@@ -68,7 +68,7 @@ export const Header = () => {
         <div className="hidden md:flex flex-1 items-center text-sm text-muted-foreground"></div>
 
         {/* Center: Navigation Bar */}
-        <div className="flex items-center gap-1 p-1 bg-background/20 backdrop-blur-xl border border-foreground/5 rounded-full shadow-2xl transition-all duration-300 hover:border-foreground/10 group">
+        <div className="flex items-center gap-1 p-1 bg-background/20 backdrop-blur-xl border border-foreground/5 rounded-full shadow-2xl transition-all duration-300 hover:border-foreground/10 group max-w-[calc(100vw-2rem)] overflow-x-auto">
           {navItems.map((item, index) => {
             if (item.condition === false) return null;
             return (
