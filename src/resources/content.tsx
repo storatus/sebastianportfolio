@@ -148,6 +148,7 @@ const about: About = {
           </>,
         ],
         images: [],
+        link: "https://www.aihoo.ai",
       },
       {
         company: "Freelance",
@@ -187,8 +188,19 @@ const about: About = {
             Implemented advanced search with international geolocation and a
             database of over 300,000 games and consoles.
           </>,
+          <>
+            View project details and case study{" "}
+            <a
+              href="/work/levelapp"
+              className="text-primary hover:underline font-medium underline-offset-4"
+            >
+              here
+            </a>
+            .
+          </>,
         ],
         images: [],
+        link: "/work/levelapp",
       },
       {
         company: "OSB AG",

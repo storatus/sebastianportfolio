@@ -163,6 +163,8 @@ export interface About extends BasePageConfig {
         /** Image height ratio */
         height: number;
       }>;
+      /** Optional link to the project or company */
+      link?: string;
     }>;
   };
   /** Studies/education section */
