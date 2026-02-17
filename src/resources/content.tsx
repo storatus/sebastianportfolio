@@ -188,20 +188,7 @@ const about: About = {
             database of over 300,000 games and consoles.
           </>,
         ],
-        images: [
-          {
-            src: "/images/levelApp/levelAppMainScreen.png",
-            alt: "LevelApp Main Screen",
-            width: 400,
-            height: 800,
-          },
-          {
-            src: "/images/levelApp/levelAppChatScreen.png",
-            alt: "LevelApp Chat Screen",
-            width: 400,
-            height: 800,
-          },
-        ],
+        images: [],
       },
       {
         company: "OSB AG",
