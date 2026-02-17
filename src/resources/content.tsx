@@ -160,14 +160,37 @@ const about: About = {
         achievements: [
           <>
             Developed and published a complete video game marketplace for the
-            German market (iOS/Android).
+            German market (iOS/Android), achieving 1,079 registered users
+            shortly after launch.
           </>,
           <>
-            Included marketplace features and API connections from IGDB to
-            enhance user experience and structure the selling process.
+            Integrated social networking features with marketplace
+            functionality, allow gamers to chat, follow profiles, and discuss
+            games in real-time.
+          </>,
+          <>
+            Achieved subscription conversion rates of 18%-27.5%, placing the
+            platform's performance in the top 5% of the industry.
+          </>,
+          <>
+            Implemented advanced search with international geolocation and a
+            database of over 300,000 games and consoles.
           </>,
         ],
-        images: [],
+        images: [
+          {
+            src: "/images/levelApp/levelAppMainScreen.png",
+            alt: "LevelApp Main Screen",
+            width: 400,
+            height: 800,
+          },
+          {
+            src: "/images/levelApp/levelAppChatScreen.png",
+            alt: "LevelApp Chat Screen",
+            width: 400,
+            height: 800,
+          },
+        ],
       },
       {
         company: "OSB AG",
