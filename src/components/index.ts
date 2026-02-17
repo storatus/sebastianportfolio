@@ -19,3 +19,4 @@ export { ThemeToggle } from "./ThemeToggle";
 export { CustomMDX } from "./mdx";
 export { RevealFx } from "./RevealFx";
 export { ProjectImages } from "./work/ProjectImages";
+export { ProjectCTA } from "./work/ProjectCTA";

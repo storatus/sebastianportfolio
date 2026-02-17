@@ -2,7 +2,12 @@ import { notFound } from "next/navigation";
 import { getPosts } from "@/utils/utils";
 import { baseURL, about, person, work } from "@/resources";
 import { formatDate } from "@/utils/formatDate";
-import { ScrollToHash, CustomMDX, ProjectImages } from "@/components";
+import {
+  ScrollToHash,
+  CustomMDX,
+  ProjectImages,
+  ProjectCTA,
+} from "@/components";
 import { Metadata } from "next";
 import { Projects } from "@/components/work/Projects";
 import Link from "next/link";
@@ -172,6 +177,14 @@ export default async function Project({
       <article className="w-full max-w-3xl mx-auto py-8">
         <CustomMDX source={post.content} />
       </article>
+
+      {post.metadata.link && (
+        <ProjectCTA
+          title={post.metadata.ctaTitle}
+          summary={post.metadata.ctaSummary}
+          link={post.metadata.link}
+        />
+      )}
     </section>
   );
 }

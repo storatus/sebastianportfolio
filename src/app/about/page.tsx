@@ -23,7 +23,6 @@ import {
   SiVercel,
   SiTailwindcss,
   SiNodedotjs,
-  SiFigma,
 } from "react-icons/si";
 
 export default function About() {
@@ -197,7 +196,7 @@ export default function About() {
                     { icon: Sparkles, name: "AI SDK" },
                     { icon: SiNodedotjs, name: "Node.js" },
                     { icon: SiTailwindcss, name: "Tailwind" },
-                    { icon: SiFigma, name: "Figma" },
+                    { icon: SiReact, name: "React Native" },
                   ].map((tech) => (
                     <div
                       key={tech.name}
