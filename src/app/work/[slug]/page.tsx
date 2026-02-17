@@ -2,11 +2,16 @@ import { notFound } from "next/navigation";
 import { getPosts } from "@/utils/utils";
 import { baseURL, about, person, work } from "@/resources";
 import { formatDate } from "@/utils/formatDate";
-import { ScrollToHash, CustomMDX } from "@/components";
+import {
+  ScrollToHash,
+  CustomMDX,
+  ProjectImages,
+  ProjectCTA,
+} from "@/components";
 import { Metadata } from "next";
 import { Projects } from "@/components/work/Projects";
 import Link from "next/link";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
@@ -87,7 +92,7 @@ export default async function Project({
   };
 
   return (
-    <section className="w-full max-w-4xl mx-auto py-12 px-4 md:px-0 flex flex-col items-center gap-12">
+    <section className="w-full max-w-4xl mx-auto py-12 px-4 md:px-0 flex flex-col items-center gap-8">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -107,9 +112,6 @@ export default async function Project({
         </Button>
 
         <div className="space-y-4">
-          <div className="text-sm font-medium text-muted-foreground">
-            {post.metadata.publishedAt && formatDate(post.metadata.publishedAt)}
-          </div>
           <h1 className="text-4xl md:text-6xl font-black tracking-tighter text-gradient leading-tight">
             {post.metadata.title}
           </h1>
@@ -148,32 +150,42 @@ export default async function Project({
             </div>
           </div>
         )}
+        {post.metadata.link && (
+          <Button
+            asChild
+            variant="outline"
+            className="rounded-full gap-2 mt-2 group/live shadow-sm hover:shadow-md transition-all"
+          >
+            <Link href={post.metadata.link} target="_blank">
+              View Live Project
+              <ExternalLink
+                size={16}
+                className="group-hover/live:translate-x-0.5 group-hover/live:-translate-y-0.5 transition-transform"
+              />
+            </Link>
+          </Button>
+        )}
       </div>
 
       {post.metadata.images.length > 0 && (
-        <div className="relative aspect-video rounded-3xl overflow-hidden border border-border/40 shadow-2xl w-full">
-          <img
-            src={post.metadata.images[0]}
-            alt={post.metadata.title}
-            className="object-cover w-full h-full"
-          />
-          <div className="absolute inset-0 bg-linear-to-t from-background/20 to-transparent" />
-        </div>
+        <ProjectImages
+          images={post.metadata.images}
+          title={post.metadata.title}
+          isMobile={post.metadata.isMobile}
+        />
       )}
 
       <article className="w-full max-w-3xl mx-auto py-8">
         <CustomMDX source={post.content} />
       </article>
 
-      <div className="w-full flex flex-col gap-12 pt-12 border-t border-border/40 items-center">
-        <div className="flex flex-col gap-4 items-center">
-          <Separator className="w-12 h-1 bg-primary/20 rounded-full" />
-          <h2 className="text-3xl font-black tracking-tighter text-gradient">
-            Related projects
-          </h2>
-        </div>
-        <Projects exclude={[post.slug]} range={[1, 2]} />
-      </div>
+      {post.metadata.link && (
+        <ProjectCTA
+          title={post.metadata.ctaTitle}
+          summary={post.metadata.ctaSummary}
+          link={post.metadata.link}
+        />
+      )}
     </section>
   );
 }

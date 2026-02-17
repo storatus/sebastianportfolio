@@ -1,7 +1,8 @@
 "use client";
 
-import { baseURL, about, person, social } from "@/resources";
+import { about, person, social } from "@/resources";
 import TableOfContents from "@/components/about/TableOfContents";
+import Link from "next/link";
 import React from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -14,7 +15,17 @@ import {
   Linkedin,
   Twitter,
   Instagram,
+  Sparkles,
+  ArrowUpRight,
 } from "lucide-react";
+import {
+  SiNextdotjs,
+  SiReact,
+  SiTypescript,
+  SiVercel,
+  SiTailwindcss,
+  SiNodedotjs,
+} from "react-icons/si";
 
 export default function About() {
   const structure = [
@@ -173,6 +184,34 @@ export default function About() {
               </RevealFx>
             )}
 
+            <RevealFx translateY={10} delay={0.45}>
+              <div className="flex flex-col gap-3 items-center lg:items-start opacity-90 mt-2">
+                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground/60">
+                  Core Stack
+                </span>
+                <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
+                  {[
+                    { icon: SiVercel, name: "Vercel" },
+                    { icon: SiNextdotjs, name: "Next.js" },
+                    { icon: SiReact, name: "React" },
+                    { icon: SiTypescript, name: "TypeScript" },
+                    { icon: Sparkles, name: "AI SDK" },
+                    { icon: SiNodedotjs, name: "Node.js" },
+                    { icon: SiTailwindcss, name: "Tailwind" },
+                    { icon: SiReact, name: "React Native" },
+                  ].map((tech) => (
+                    <div
+                      key={tech.name}
+                      className="flex items-center gap-1.5 px-3 py-1.5 rounded-md border border-border/30 bg-secondary/10 hover:bg-secondary/20 text-xs md:text-sm font-medium text-muted-foreground transition-all cursor-default"
+                    >
+                      <tech.icon className="w-3.5 h-3.5" />
+                      <span>{tech.name}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </RevealFx>
+
             {about.intro.display && (
               <RevealFx translateY={20} delay={0.5}>
                 <div className="text-xl md:text-2xl leading-relaxed text-muted-foreground/90 max-w-3xl">
@@ -197,9 +236,31 @@ export default function About() {
                     <div className="group relative flex flex-col gap-6">
                       <div className="flex flex-col md:flex-row md:justify-between md:items-end gap-2">
                         <div className="flex flex-col">
-                          <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">
-                            {experience.company}
-                          </h3>
+                          {experience.link ? (
+                            <Link
+                              href={experience.link}
+                              target={
+                                experience.link.startsWith("http")
+                                  ? "_blank"
+                                  : undefined
+                              }
+                              rel={
+                                experience.link.startsWith("http")
+                                  ? "noopener noreferrer"
+                                  : undefined
+                              }
+                              className="group/link flex items-center gap-2 w-fit"
+                            >
+                              <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground group-hover/link:text-primary transition-colors">
+                                {experience.company}
+                              </h3>
+                              <ArrowUpRight className="w-6 h-6 text-muted-foreground group-hover/link:text-primary group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-all" />
+                            </Link>
+                          ) : (
+                            <h3 className="text-2xl md:text-3xl font-bold tracking-tight text-foreground">
+                              {experience.company}
+                            </h3>
+                          )}
                           <span className="text-lg font-medium text-primary italic">
                             {experience.role}
                           </span>

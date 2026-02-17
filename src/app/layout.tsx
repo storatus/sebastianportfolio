@@ -31,10 +31,10 @@ export default async function RootLayout({
         fonts.body.variable,
         fonts.label.variable,
         fonts.code.variable,
-        "h-full antialiased",
+        "h-full antialiased overflow-x-hidden",
       )}
     >
-      <body className="min-h-screen bg-background text-foreground flex flex-col items-center overflow-x-hidden selection:bg-primary/20 transition-colors duration-500">
+      <body className="min-h-screen bg-background text-foreground flex flex-col items-center overflow-x-hidden selection:bg-primary/20 transition-colors duration-500 w-full max-w-[100vw]">
         <Providers>
           {/* Premium Theme-Aware Background */}
           <div className="fixed inset-0 -z-10 bg-background overflow-hidden">

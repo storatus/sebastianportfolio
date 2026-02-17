@@ -133,10 +133,22 @@ const about: About = {
             accelerator program in Bolivia.
           </>,
           <>
+            Visit the platform at{" "}
+            <a
+              href="https://www.aihoo.ai"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-primary hover:underline font-medium underline-offset-4"
+            >
+              www.aihoo.ai
+            </a>
+          </>,
+          <>
             Tech stack: Next.js, Vercel AI SDK, Tailwind CSS, and PostgreSQL.
           </>,
         ],
         images: [],
+        link: "https://www.aihoo.ai",
       },
       {
         company: "Freelance",
@@ -160,14 +172,35 @@ const about: About = {
         achievements: [
           <>
             Developed and published a complete video game marketplace for the
-            German market (iOS/Android).
+            German market (iOS/Android), achieving 1,079 registered users
+            shortly after launch.
           </>,
           <>
-            Included marketplace features and API connections from IGDB to
-            enhance user experience and structure the selling process.
+            Integrated social networking features with marketplace
+            functionality, allow gamers to chat, follow profiles, and discuss
+            games in real-time.
+          </>,
+          <>
+            Achieved subscription conversion rates of 18%-27.5%, placing the
+            platform's performance in the top 5% of the industry.
+          </>,
+          <>
+            Implemented advanced search with international geolocation and a
+            database of over 300,000 games and consoles.
+          </>,
+          <>
+            View project details and case study{" "}
+            <a
+              href="/work/levelapp"
+              className="text-primary hover:underline font-medium underline-offset-4"
+            >
+              here
+            </a>
+            .
           </>,
         ],
         images: [],
+        link: "/work/levelapp",
       },
       {
         company: "OSB AG",

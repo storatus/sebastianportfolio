@@ -139,7 +139,7 @@ export const ContactForm = () => {
           <Button
             type="submit"
             disabled={isSubmitting}
-            className="w-full md:w-auto min-w-[200px] h-14 rounded-full text-lg font-bold gap-3 shadow-lg hover:shadow-xl transition-all active:scale-95 group"
+            className="w-full md:w-auto md:min-w-[200px] h-14 rounded-full text-lg font-bold gap-3 shadow-lg hover:shadow-xl transition-all active:scale-95 group"
           >
             {isSubmitting ? (
               <span className="flex items-center gap-2">

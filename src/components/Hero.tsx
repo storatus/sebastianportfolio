@@ -42,6 +42,7 @@ export const Hero = ({ headline, subline }: HeroProps) => {
       className="w-full flex flex-col items-center gap-8 pt-20 pb-32 relative"
     >
       <motion.div
+        className="px-6 md:px-8"
         style={{
           y,
           opacity,
@@ -52,7 +53,7 @@ export const Hero = ({ headline, subline }: HeroProps) => {
         }}
       >
         <RevealFx translateY={8} delay={0.2}>
-          <h1 className="text-5xl md:text-8xl font-black tracking-tighter text-center text-balance max-w-5xl text-gradient">
+          <h1 className="text-4xl md:text-8xl font-black tracking-tighter text-center text-balance max-w-5xl text-gradient">
             {headlineText ? (
               <Typewriter text={headlineText} delay={0.2} />
             ) : (
@@ -68,7 +69,7 @@ export const Hero = ({ headline, subline }: HeroProps) => {
         </RevealFx>
 
         <RevealFx translateY={12} delay={0.8}>
-          <div className="max-w-2xl px-6 py-4 rounded-3xl bg-background/5 border border-border/20 backdrop-blur-md shadow-2xl relative group overflow-hidden">
+          <div className="max-w-2xl mx-auto px-6 py-4 rounded-3xl bg-background/5 border border-border/20 backdrop-blur-md shadow-2xl relative group overflow-hidden">
             <div className="absolute inset-0 bg-linear-to-tr from-primary/5 via-transparent to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity" />
             <p className="text-xl md:text-2xl text-muted-foreground/90 text-center text-balance leading-relaxed relative z-10">
               {subline}

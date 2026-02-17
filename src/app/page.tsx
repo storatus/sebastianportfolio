@@ -13,7 +13,9 @@ export default function Home() {
       new Date(a.metadata.publishedAt).getTime()
     );
   });
-  const recentProjects = sortedProjects.slice(0, 4);
+  const recentProjects = sortedProjects.filter(
+    (project) => project.slug === "aihoo" || project.slug === "levelapp",
+  );
 
   return (
     <div className="flex flex-col items-center gap-24 pb-12 md:pb-20 w-full">

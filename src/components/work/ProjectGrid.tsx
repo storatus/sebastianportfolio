@@ -107,14 +107,21 @@ export const ProjectGrid = () => {
         </Row>
       </RevealFx>
 
-      <Row fillWidth gap="l" wrap>
+      <div
+        style={{
+          display: "flex",
+          flexWrap: "wrap",
+          gap: "var(--spacing-l)",
+          width: "100%",
+        }}
+      >
         {filteredProjects.map((project, index) => (
-          <Column
+          <div
             key={project.title}
-            fillWidth
-            s={{ width: "100%" }}
-            m={{ width: "48%" }}
-            l={{ width: "31%" }}
+            style={{
+              flex: "1 1 calc(33.333% - var(--spacing-l))",
+              minWidth: "280px",
+            }}
           >
             <RevealFx translateY="8" delay={index * 0.1} fillWidth>
               <SimpleProjectCard
@@ -122,9 +129,9 @@ export const ProjectGrid = () => {
                 onClick={() => setSelectedProject(project)}
               />
             </RevealFx>
-          </Column>
+          </div>
         ))}
-      </Row>
+      </div>
 
       <Dialog
         isOpen={!!selectedProject}

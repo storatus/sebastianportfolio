@@ -5,8 +5,6 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel";
 
 interface Project {
@@ -18,6 +16,7 @@ interface Project {
     images: string[];
     team: { avatar: string }[];
     link?: string;
+    isMobile?: boolean;
   };
   content: string;
 }
@@ -38,10 +37,6 @@ export function RecentProjectsCarousel({
         }}
         className="w-full"
       >
-        <div className="flex justify-end mb-4 gap-2">
-          <CarouselPrevious className="static translate-y-0" />
-          <CarouselNext className="static translate-y-0" />
-        </div>
         <CarouselContent className="-ml-2 md:-ml-4">
           {projects.map((post, index) => (
             <CarouselItem
@@ -62,6 +57,7 @@ export function RecentProjectsCarousel({
                     })) || []
                   }
                   link={post.metadata.link || ""}
+                  isMobile={post.metadata.isMobile}
                 />
               </div>
             </CarouselItem>

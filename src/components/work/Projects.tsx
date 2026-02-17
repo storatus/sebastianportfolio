@@ -4,10 +4,15 @@ import { ProjectCard } from "@/components";
 interface ProjectsProps {
   range?: [number, number?];
   exclude?: string[];
+  include?: string[];
 }
 
-export function Projects({ range, exclude }: ProjectsProps) {
+export function Projects({ range, exclude, include }: ProjectsProps) {
   let allProjects = getPosts(["src", "app", "work", "projects"]);
+
+  if (include && include.length > 0) {
+    allProjects = allProjects.filter((post) => include.includes(post.slug));
+  }
 
   if (exclude && exclude.length > 0) {
     allProjects = allProjects.filter((post) => !exclude.includes(post.slug));
@@ -25,7 +30,7 @@ export function Projects({ range, exclude }: ProjectsProps) {
     : sortedProjects;
 
   return (
-    <div className="flex flex-col gap-20 w-full max-w-7xl mx-auto px-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-7xl mx-auto px-4">
       {displayedProjects.map((post, index) => (
         <ProjectCard
           priority={index < 2}
@@ -39,6 +44,7 @@ export function Projects({ range, exclude }: ProjectsProps) {
             post.metadata.team?.map((member) => ({ src: member.avatar })) || []
           }
           link={post.metadata.link || ""}
+          isMobile={post.metadata.isMobile}
         />
       ))}
     </div>
