@@ -40,7 +40,7 @@ export const Typewriter = ({
   }, [isInView, text, speed, delay]);
 
   return (
-    <span ref={ref} className={className} style={{ display: "inline-block" }}>
+    <span ref={ref} className={className} style={{ display: "inline" }}>
       {displayText}
       <motion.span
         initial={{ opacity: 0 }}
