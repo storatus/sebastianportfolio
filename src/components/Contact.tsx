@@ -16,7 +16,7 @@ export const Contact = () => {
           </h2>
         </RevealFx>
         <RevealFx translateY="8" delay={0.1}>
-          <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto">
+          <p className="text-muted-foreground text-lg md:text-xl max-w-xl md:max-w-2xl mx-auto px-4">
             Have a project in mind or just want to say hi? I'd love to hear from
             you.
           </p>
